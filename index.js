@@ -12,6 +12,381 @@ const extensionName = _folderMatch ? _folderMatch[1] : 'another-universe';
 const extensionFolderPath = `scripts/extensions/third-party/${extensionName}`;
 console.log(`[Another-Universe] Detected folder name: "${extensionName}"`);
 
+// =============================================================================
+// I18N — Internationalization
+// =============================================================================
+// All user-facing strings live here. Add new languages by extending LOCALES.
+// Keep keys sorted by section for easier maintenance. Strings inside priority
+// blocks of the LLM prompt stay English-only because LLMs are trained on English
+// instructions; only UI text follows the locale.
+// =============================================================================
+
+const LOCALES = {
+  th: {
+    // ── Generic ────────────────────────────────────────────────────────────
+    common: {
+      another_universe: '🌌 Another Universe',
+      warning_title: '⚠️ Another Universe',
+      please_enable: 'กรุณาเปิดใช้งาน Extension ก่อนนะ!',
+      please_select_character: 'กรุณาเลือกตัวละครก่อนนะ!',
+      generating_in_progress: 'กำลังสร้างเรื่องราวอยู่ กรุณารอสักครู่',
+      cancelled: 'ยกเลิกการสร้างเรื่องราวแล้ว',
+      universe_ready: 'เรื่องราวจักรวาลคู่ขนานพร้อมแล้ว!',
+      cannot_generate: 'ไม่สามารถสร้างเรื่องราวได้ ลองใหม่อีกครั้ง',
+      network_problem: 'เกิดปัญหาการเชื่อมต่อ กรุณาตรวจสอบ API และลองใหม่อีกครั้ง',
+      rate_limit: 'API rate limit exceeded กรุณารอสักครู่แล้วลองใหม่',
+      error_prefix: 'เกิดข้อผิดพลาด',
+      unknown_error: 'Unknown error',
+      tagline: '"ถ้าพวกเราเจอกันในอีกจักรวาลหนึ่ง เรื่องราวของเราจะเปลี่ยนไปไหม"',
+      powered_by: 'Powered by',
+      results_may_vary: '💡 ผลลัพธ์อาจแตกต่างกันตาม AI model และ preset ที่ใช้',
+    },
+    // ── Settings panel ─────────────────────────────────────────────────────
+    panel: {
+      drawer_title: '🌌 Another Universe (จักรวาลคู่ขนาน)',
+      enable_label: 'เปิดใช้งานระบบ Another Universe',
+      gallery_btn: '📚 แกลเลอรี',
+      hint: "เปิดใช้งานแล้ว ใช้เมนูด่วน <b>🌌 Another Universe</b> ในเมนูแชท (เหนือ Author's Note) เพื่อเลือกธีม / Encounter / Mood แล้วกด Generate",
+      lang_label: '🌐 Language / ภาษา:',
+      lang_auto: '🌐 อัตโนมัติ (Auto)',
+      lang_th: '🇹🇭 ไทย',
+      lang_en: '🇬🇧 English',
+    },
+    // ── Quick Settings popup ───────────────────────────────────────────────
+    quick: {
+      title: '🌌 Another Universe',
+      subtitle: 'เลือกการตั้งค่าแล้วกด Generate',
+      about_tooltip: 'เกี่ยวกับโปรเจกต์ (About)',
+      theme: '🎭 Theme',
+      encounter: '💫 Encounter',
+      mood: '🎨 Mood',
+      gallery_btn: '📚 Gallery',
+      generate_btn: '✨ Generate',
+      custom_theme_label: '✏️ บรรยายโลกของคุณ',
+      custom_theme_placeholder:
+        'เช่น: โลกที่มนุษย์อยู่ร่วมกับมังกรในเมืองลอยฟ้า ผู้ฝึกมังกรจะถูกเลือกตั้งแต่เด็กให้ผูกพันกับมังกรหนึ่งตัวไปตลอดชีวิต...',
+      custom_encounter_label: '✏️ บรรยายการพบเจอของคุณ',
+      custom_encounter_placeholder:
+        'เช่น: ทั้งคู่เป็นนักดวลมังกรในการแข่งขันใหญ่ ฝ่ายหนึ่งคือแชมป์เก่า อีกฝ่ายเป็นมือใหม่ที่เข้ามาท้าทาย...',
+      custom_mood_label: '✏️ บรรยายอารมณ์ / โทนของคุณ',
+      custom_mood_placeholder:
+        'เช่น: เคร่งขรึมแต่เปื้อนความหวัง บทสนทนาห้วนสั้นแต่แต่ละคำมีน้ำหนัก ทุกการมองตามีเดิมพันสูง...',
+      custom_empty_warn: 'กรุณากรอกคำบรรยาย: {fields} ก่อน หรือเปลี่ยนเป็นตัวเลือกอื่น',
+      custom_empty_label_theme: 'โลก/ธีม',
+      custom_empty_label_encounter: 'การพบเจอ',
+      custom_empty_label_mood: 'อารมณ์/โทน',
+      custom_empty_title: '🎨 Custom',
+    },
+    // ── Loading ─────────────────────────────────────────────────────────────
+    loading: {
+      opening_portal: 'กำลังเปิดประตูจักรวาล...',
+      creating_story: 'กำลังสร้างเรื่องราวในโลกคู่ขนาน',
+      cancel: '✕ ยกเลิก',
+      saving_memory: 'กำลังบันทึกความทรงจำ...',
+      generating_image: 'กำลังสร้างรูปภาพ...',
+    },
+    // ── Story modal ─────────────────────────────────────────────────────────
+    story: {
+      edit: '✏️ Edit Story',
+      edit_short: '✏️ Edit',
+      long_card: '📸 Long Card',
+      long_short: '📖 Long',
+      short_card: '📸 Short Card',
+      short_short: '✨ Short',
+      export_png: '🎴 Export PNG Card',
+      export_png_short: '🎴 PNG',
+      export_json: '🗂️ Export JSON',
+      export_json_short: '🗂️ JSON',
+      regenerate: '🔄 Generate',
+      regenerate_short: '🔄 New',
+      close: 'Close',
+      save_edit: '💾 Save Changes',
+      save_edit_short: '💾 Save',
+      cancel_edit: '✕ Cancel',
+      cancel_edit_short: '✕ Cancel',
+      story_updated: 'Story updated successfully',
+      view_fullscreen: '📸 ดูการ์ดเต็มจอ',
+      back: '◀ Back',
+      back_th: '◀ ย้อนกลับ',
+      back_to_st: 'กลับไปยัง SillyTavern',
+    },
+    // ── Image export ─────────────────────────────────────────────────────────
+    image: {
+      cannot_load_html2canvas: 'ไม่สามารถโหลดไลบรารี html2canvas ได้',
+      generating_image: '📸 Generating...',
+      saved: 'บันทึกภาพเสร็จสิ้น!',
+      cannot_generate: 'ไม่สามารถสร้างรูปภาพได้ ลองอีกครั้ง',
+      canvas_too_large: 'ไม่สามารถสร้าง canvas ได้ รูปภาพอาจใหญ่เกินไป',
+      blob_failed: 'ไม่สามารถแปลงรูปภาพได้ กรุณาลองใหม่',
+      font_failed: 'ฟอนต์โหลดไม่สำเร็จ กรุณารอสักครู่แล้วลองใหม่',
+      mobile_long_press: '👇 แตะค้างที่รูปภาพ แล้วเลือก "บันทึกรูปภาพ"',
+      mobile_long_press_en: '(Long press image to save)',
+      close: '✕ ปิด (Close)',
+      mobile_render_failed: 'สร้างรูปภาพไม่สำเร็จ แตะที่หน้าจอเพื่อย้อนกลับ หรือแคปหน้าจอแทน',
+      new_tab_opened: 'เปิดแท็บใหม่แล้ว กำลังสร้างรูปภาพ...',
+      popup_blocked: 'บราวเซอร์บล็อก popup — กรุณาอนุญาต popup แล้วลองใหม่',
+      view_user_x_char: '{userName} × {charName} story',
+    },
+    // ── Card export ─────────────────────────────────────────────────────────
+    card: {
+      title_png: '🎴 Another Universe',
+      title_json: '🗂️ Another Universe',
+      no_character_data: 'ไม่พบข้อมูลตัวละคร',
+      generating: 'กำลังสร้างการ์ดตัวละคร...',
+      empty_first_mes: 'เนื้อเรื่อง (first message) ว่างเปล่า ตรวจสอบว่ามี story ก่อน export',
+      empty_first_mes_json: 'เนื้อเรื่อง (first message) ว่างเปล่า',
+      avatar_fallback: 'ไม่พบรูป avatar เลยใช้รูป placeholder แทน คุณสามารถเปลี่ยนรูปได้ใน SillyTavern หลัง import',
+      png_ready: 'การ์ดตัวละครพร้อมแล้ว ลากไฟล์ .png เข้า SillyTavern เพื่อ import ได้เลย',
+      json_ready: 'JSON card พร้อมแล้ว — import เข้า SillyTavern หรือ TavernAI / RisuAI ได้',
+      cannot_create_png: 'ไม่สามารถสร้างการ์ดได้',
+      cannot_create_json: 'ไม่สามารถสร้าง JSON ได้',
+      gallery_entry_not_found: 'ไม่พบข้อมูลในแกลเลอรี',
+    },
+    // ── Gallery ─────────────────────────────────────────────────────────────
+    gallery: {
+      title: '📚 แกลเลอรีจักรวาลคู่ขนาน',
+      stories_count: '{count} เรื่องราว',
+      favorites_count: '{count} favorites',
+      empty: 'ยังไม่มีเรื่องราวในแกลเลอรี<br><small>กด Generate เพื่อสร้างเรื่องแรก!</small>',
+      empty_favorites: 'ยังไม่มีเรื่องโปรด<br><small>กด ⭐ เพื่อเพิ่ม!</small>',
+      filter_all: '📚 All',
+      filter_fav: '⭐ Favorites',
+      backup: '💾 Backup',
+      clear: '🗑️ Clear All',
+      no_backup: 'ไม่มีเรื่องราวให้บันทึก',
+      backup_done: 'สำรองข้อมูลเรียบร้อยแล้ว!',
+      backup_header: '🌌 ANOTHER UNIVERSE - GALLERY BACKUP 🌌',
+      backup_generated: 'Generated on:',
+      confirm_clear: 'ลบเรื่องราวทั้งหมดในแกลเลอรี?',
+      favorites_warning: 'คุณมี favorites เยอะมาก (100+) กรุณาลบบางเรื่องเพื่อประสิทธิภาพที่ดีขึ้น',
+      favorites_full_title: '⚠️ Gallery Full',
+      storage_full: 'พื้นที่จัดเก็บเต็ม! กรุณาลบเรื่องเก่าใน Gallery',
+      title_favorite: 'Favorite',
+      title_export_png: 'Export as Character Card (.png)',
+      title_export_json: 'Export as JSON (.json)',
+      title_delete: 'Delete',
+    },
+    // ── Welcome modal ───────────────────────────────────────────────────────
+    welcome: {
+      title: '🌌 Another Universe v1.1',
+      subtitle: 'ถ้าเราได้พบกัน...ในอีกจักรวาลหนึ่ง',
+      thanks: 'ขอบคุณที่ติดตั้ง <strong>Another Universe</strong>',
+      intro_p1: 'โปรเจกต์นี้เกิดขึ้นจากคำถามง่ายๆ คำถามหนึ่ง',
+      intro_q: '<em>"ถ้าตัวละครสองคนได้พบกันในโลกที่แตกต่างออกไป เรื่องราวของพวกเขาจะยังเหมือนเดิมไหม?"</em>',
+      intro_p2:
+        'บางจักรวาล พวกเขาอาจเป็นคนแปลกหน้าที่เดินสวนกันใต้สายฝน บางจักรวาล อาจเป็นศัตรู คู่หู หรือคนรักที่ถูกโชคชะตาพลัดพราก แต่ไม่ว่าโลกจะเปลี่ยนไปมากแค่ไหน ความรู้สึกบางอย่างอาจยังคงเดิมเสมอ',
+      intro_p3:
+        'Another Universe จะนำบทสนทนา บุคลิก และความสัมพันธ์ของตัวละคร มาตีความใหม่ในโลกคู่ขนาน ผ่านธีม อารมณ์ และรูปแบบการพบกันที่แตกต่างกันออกไป',
+      contact: 'หากพบปัญหาในการเดินทางข้ามโลก โปรดแจ้งที่ Discord: <strong>majesty.pop (POPKO)</strong>',
+      license_warning: '⚠️ Custom License — ดูไฟล์ LICENSE สำหรับรายละเอียดเต็ม',
+      license_terms:
+        'อนุญาตให้ดัดแปลงและพัฒนาต่อเพื่อแจกจ่ายคืนคอมมูนิตี้เท่านั้น <strong>ห้ามนำไปปิดซอร์สโค้ด หรือดัดแปลงเพื่อการค้า/ค้ากำไรโดยเด็ดขาด</strong>',
+      license_violation: 'หากตรวจพบการละเมิด จะดำเนินการแจ้งกับทุกคอมมูนิตี้ที่เกี่ยวข้องทันที',
+      start_btn: '✨ เริ่มเดินทางข้ามจักรวาล',
+    },
+  },
+  en: {
+    common: {
+      another_universe: '🌌 Another Universe',
+      warning_title: '⚠️ Another Universe',
+      please_enable: 'Please enable the Extension first!',
+      please_select_character: 'Please select a character first!',
+      generating_in_progress: 'A story is being generated, please wait',
+      cancelled: 'Story generation cancelled',
+      universe_ready: 'Your parallel universe story is ready!',
+      cannot_generate: 'Cannot generate story, please try again',
+      network_problem: 'Connection issue. Please check your API and try again',
+      rate_limit: 'API rate limit exceeded. Please wait and try again',
+      error_prefix: 'Error',
+      unknown_error: 'Unknown error',
+      tagline: '"If we met in another universe, would our story change?"',
+      powered_by: 'Powered by',
+      results_may_vary: '💡 Results may vary depending on the AI model and preset used',
+    },
+    panel: {
+      drawer_title: '🌌 Another Universe (Parallel Universe)',
+      enable_label: 'Enable Another Universe',
+      gallery_btn: '📚 Gallery',
+      hint: "Once enabled, use the <b>🌌 Another Universe</b> quick menu in the chat menu (above Author's Note) to choose Theme / Encounter / Mood and click Generate.",
+      lang_label: '🌐 Language / ภาษา:',
+      lang_auto: '🌐 Auto-detect',
+      lang_th: '🇹🇭 ไทย',
+      lang_en: '🇬🇧 English',
+    },
+    quick: {
+      title: '🌌 Another Universe',
+      subtitle: 'Choose your settings and press Generate',
+      about_tooltip: 'About this project',
+      theme: '🎭 Theme',
+      encounter: '💫 Encounter',
+      mood: '🎨 Mood',
+      gallery_btn: '📚 Gallery',
+      generate_btn: '✨ Generate',
+      custom_theme_label: '✏️ Describe your world',
+      custom_theme_placeholder:
+        'e.g.: A world where humans live alongside dragons in a floating city. Dragon riders are chosen as children to bond with one dragon for life...',
+      custom_encounter_label: '✏️ Describe your encounter',
+      custom_encounter_placeholder:
+        'e.g.: Both are dragon-duelists at a major tournament. One is the reigning champion, the other a newcomer challenging them...',
+      custom_mood_label: '✏️ Describe your mood / tone',
+      custom_mood_placeholder:
+        'e.g.: Solemn yet hopeful. Terse dialogue where every word carries weight. Every glance feels high-stakes...',
+      custom_empty_warn: 'Please fill in the description for: {fields}, or change to another option',
+      custom_empty_label_theme: 'World/Theme',
+      custom_empty_label_encounter: 'Encounter',
+      custom_empty_label_mood: 'Mood/Tone',
+      custom_empty_title: '🎨 Custom',
+    },
+    loading: {
+      opening_portal: 'Opening universe portal...',
+      creating_story: 'Creating your parallel universe story',
+      cancel: '✕ Cancel',
+      saving_memory: 'Saving memory...',
+      generating_image: 'Generating image...',
+    },
+    story: {
+      edit: '✏️ Edit Story',
+      edit_short: '✏️ Edit',
+      long_card: '📸 Long Card',
+      long_short: '📖 Long',
+      short_card: '📸 Short Card',
+      short_short: '✨ Short',
+      export_png: '🎴 Export PNG Card',
+      export_png_short: '🎴 PNG',
+      export_json: '🗂️ Export JSON',
+      export_json_short: '🗂️ JSON',
+      regenerate: '🔄 Generate',
+      regenerate_short: '🔄 New',
+      close: 'Close',
+      save_edit: '💾 Save Changes',
+      save_edit_short: '💾 Save',
+      cancel_edit: '✕ Cancel',
+      cancel_edit_short: '✕ Cancel',
+      story_updated: 'Story updated successfully',
+      view_fullscreen: '📸 View card fullscreen',
+      back: '◀ Back',
+      back_th: '◀ Back',
+      back_to_st: 'Back to SillyTavern',
+    },
+    image: {
+      cannot_load_html2canvas: 'Cannot load html2canvas library',
+      generating_image: '📸 Generating...',
+      saved: 'Image saved successfully!',
+      cannot_generate: 'Cannot generate image, please try again',
+      canvas_too_large: 'Cannot create canvas — the image may be too large',
+      blob_failed: 'Cannot convert image, please try again',
+      font_failed: 'Font loading failed, please wait and try again',
+      mobile_long_press: '👇 Long-press the image and select "Save Image"',
+      mobile_long_press_en: '(Long press image to save)',
+      close: '✕ Close',
+      mobile_render_failed: 'Image generation failed. Tap to go back, or take a screenshot instead',
+      new_tab_opened: 'New tab opened, generating image...',
+      popup_blocked: 'Browser blocked popup — please allow popups and try again',
+      view_user_x_char: '{userName} × {charName} story',
+    },
+    card: {
+      title_png: '🎴 Another Universe',
+      title_json: '🗂️ Another Universe',
+      no_character_data: 'Character data not found',
+      generating: 'Generating character card...',
+      empty_first_mes: 'first_mes is empty. Make sure you have a story before exporting',
+      empty_first_mes_json: 'first_mes is empty',
+      avatar_fallback: 'Avatar not found, used placeholder. You can change the avatar after importing into SillyTavern',
+      png_ready: 'Character card ready! Drag the .png into SillyTavern to import',
+      json_ready: 'JSON card ready — import into SillyTavern, TavernAI, or RisuAI',
+      cannot_create_png: 'Cannot generate card',
+      cannot_create_json: 'Cannot generate JSON',
+      gallery_entry_not_found: 'Gallery entry not found',
+    },
+    gallery: {
+      title: '📚 Parallel Universe Gallery',
+      stories_count: '{count} stories',
+      favorites_count: '{count} favorites',
+      empty: 'No stories yet<br><small>Press Generate to create your first one!</small>',
+      empty_favorites: 'No favorites yet<br><small>Tap ⭐ to add!</small>',
+      filter_all: '📚 All',
+      filter_fav: '⭐ Favorites',
+      backup: '💾 Backup',
+      clear: '🗑️ Clear All',
+      no_backup: 'No stories to backup',
+      backup_done: 'Backup completed successfully!',
+      backup_header: '🌌 ANOTHER UNIVERSE - GALLERY BACKUP 🌌',
+      backup_generated: 'Generated on:',
+      confirm_clear: 'Delete all stories in the gallery?',
+      favorites_warning: 'You have many favorites (100+). Please delete some entries for better performance',
+      favorites_full_title: '⚠️ Gallery Full',
+      storage_full: 'Storage is full! Please delete old stories in the Gallery',
+      title_favorite: 'Favorite',
+      title_export_png: 'Export as Character Card (.png)',
+      title_export_json: 'Export as JSON (.json)',
+      title_delete: 'Delete',
+    },
+    welcome: {
+      title: '🌌 Another Universe v1.1',
+      subtitle: 'If we met...in another universe',
+      thanks: 'Thanks for installing <strong>Another Universe</strong>',
+      intro_p1: 'This project was born from a simple question:',
+      intro_q: '<em>"If two characters met in a different world, would their story still be the same?"</em>',
+      intro_p2:
+        'In some universes, they might be strangers passing in the rain. In others, enemies, partners, or lovers torn apart by fate. But no matter how much the world changes, some feelings may remain the same.',
+      intro_p3:
+        'Another Universe reinterprets the dialogue, personality, and relationships of your characters in parallel worlds — through different themes, moods, and encounter types.',
+      contact:
+        'If you encounter any issues on your journey across worlds, please report at Discord: <strong>majesty.pop (POPKO)</strong>',
+      license_warning: '⚠️ Custom License — see the LICENSE file for full details',
+      license_terms:
+        'You may modify and develop this project for community redistribution only. <strong>Closing the source code or commercializing it is strictly forbidden.</strong>',
+      license_violation: 'Any violation will be reported to all related communities immediately',
+      start_btn: '✨ Start your journey across universes',
+    },
+  },
+};
+
+let _currentLang = 'th'; // Will be resolved at init time
+
+function resolveLocale() {
+  const userPref = extension_settings[extensionName]?.language;
+  if (userPref === 'th' || userPref === 'en') return userPref;
+  // Auto: try ST locale first, then navigator
+  const stLang = (typeof localStorage !== 'undefined' ? localStorage.getItem('language') || '' : '').toLowerCase();
+  if (stLang.startsWith('th')) return 'th';
+  if (stLang.startsWith('en')) return 'en';
+  const navLang = (typeof navigator !== 'undefined' ? navigator.language || '' : '').toLowerCase();
+  if (navLang.startsWith('th')) return 'th';
+  if (navLang.startsWith('en')) return 'en';
+  return 'th'; // Project default
+}
+
+// Translate by dotted key, e.g. t('common.please_enable') or t('quick.theme')
+function t(key, params = {}) {
+  const path = key.split('.');
+  const lookup = lang => {
+    let cur = LOCALES[lang];
+    for (const seg of path) {
+      if (cur == null) return undefined;
+      cur = cur[seg];
+    }
+    return cur;
+  };
+  let val = lookup(_currentLang);
+  if (val === undefined) val = lookup('en'); // Fallback to English
+  if (val === undefined) val = key; // Fallback to key (helps debug missing translations)
+  if (typeof val === 'string' && params && typeof params === 'object') {
+    for (const [k, v] of Object.entries(params)) {
+      val = val.replace(new RegExp(`\\{${k}\\}`, 'g'), v);
+    }
+  }
+  return val;
+}
+
+function getCurrentLang() {
+  return _currentLang;
+}
+
+function setCurrentLang(lang) {
+  _currentLang = lang === 'en' ? 'en' : 'th';
+}
+
 // Universe themes
 const universeThemes = {
   none: { label: '❌ ไม่ระบุ', prompt: '' }, // None / Unspecified — let AI decide freely without setting hint
@@ -1070,12 +1445,12 @@ function buildEntryFromContext(charName, storyText, themeBadge, themeId) {
 // Main export function: build PNG with embedded V2 JSON, then download
 async function exportCharacterCard(entry) {
   if (!entry || !entry.charName) {
-    toastr.error('ไม่พบข้อมูลตัวละคร', '🎴 Another Universe'); // Character data not found
+    toastr.error(t('card.no_character_data'), t('card.title_png'));
     return;
   }
   let loadingShown = false;
   try {
-    toastr.info('กำลังสร้างการ์ดตัวละคร...', '🎴 Another Universe'); // Generating character card...
+    toastr.info(t('card.generating'), t('card.title_png'));
     loadingShown = true;
 
     // 1) Build V2 JSON
@@ -1089,7 +1464,7 @@ async function exportCharacterCard(entry) {
     );
     if (firstMesLen === 0) {
       console.warn(`[${extensionName}] ⚠️ first_mes is EMPTY — the source story may be missing or stripped entirely`);
-      toastr.warning('เนื้อเรื่อง (first message) ว่างเปล่า ตรวจสอบว่ามี story ก่อน export', '⚠️ Another Universe');
+      toastr.warning(t('card.empty_first_mes'), t('common.warning_title'));
     }
 
     // 2) Get avatar PNG
@@ -1136,16 +1511,13 @@ async function exportCharacterCard(entry) {
     }, 200);
 
     if (usedPlaceholder) {
-      toastr.warning(
-        'ไม่พบรูป avatar เลยใช้รูป placeholder แทน คุณสามารถเปลี่ยนรูปได้ใน SillyTavern หลัง import',
-        '🎴 Another Universe',
-      ); // Avatar not found, used placeholder; you can change it after import
+      toastr.warning(t('card.avatar_fallback'), t('card.title_png'));
     } else {
-      toastr.success('การ์ดตัวละครพร้อมแล้ว ลากไฟล์ .png เข้า SillyTavern เพื่อ import ได้เลย', '🎴 Another Universe'); // Card ready, drag .png into SillyTavern to import
+      toastr.success(t('card.png_ready'), t('card.title_png'));
     }
   } catch (error) {
     console.error(`[${extensionName}] Export character card failed:`, error);
-    toastr.error(`ไม่สามารถสร้างการ์ดได้: ${error.message || 'unknown error'}`, '🎴 Another Universe'); // Cannot generate card
+    toastr.error(`${t('card.cannot_create_png')}: ${error.message || t('common.unknown_error')}`, t('card.title_png'));
   }
 }
 
@@ -1154,7 +1526,7 @@ async function exportCharacterCard(entry) {
 // tool that consumes V2 JSON directly (TavernAI, JanitorAI, RisuAI, etc.).
 async function exportCharacterCardJson(entry) {
   if (!entry || !entry.charName) {
-    toastr.error('ไม่พบข้อมูลตัวละคร', '🗂️ Another Universe'); // Character data not found
+    toastr.error(t('card.no_character_data'), t('card.title_json'));
     return;
   }
   try {
@@ -1168,7 +1540,7 @@ async function exportCharacterCardJson(entry) {
     );
     if (firstMesLen === 0) {
       console.warn(`[${extensionName}] ⚠️ first_mes is EMPTY in JSON export`);
-      toastr.warning('เนื้อเรื่อง (first message) ว่างเปล่า', '⚠️ Another Universe');
+      toastr.warning(t('card.empty_first_mes_json'), t('common.warning_title'));
     }
 
     const blob = new Blob([cardJson], { type: 'application/json;charset=utf-8' });
@@ -1190,16 +1562,220 @@ async function exportCharacterCardJson(entry) {
       URL.revokeObjectURL(url);
     }, 200);
 
-    toastr.success('JSON card พร้อมแล้ว — import เข้า SillyTavern หรือ TavernAI / RisuAI ได้', '🗂️ Another Universe'); // JSON card ready — import into SillyTavern or TavernAI / RisuAI
+    toastr.success(t('card.json_ready'), t('card.title_json'));
   } catch (error) {
     console.error(`[${extensionName}] Export JSON failed:`, error);
-    toastr.error(`ไม่สามารถสร้าง JSON ได้: ${error.message || 'unknown error'}`, '🗂️ Another Universe');
+    toastr.error(
+      `${t('card.cannot_create_json')}: ${error.message || t('common.unknown_error')}`,
+      t('card.title_json'),
+    );
   }
 }
+
+// =============================================================================
+// English label maps for theme/encounter/mood (mirrors the Thai labels in the
+// universeThemes/encounterTypes/moodTypes objects). Keep keys in sync.
+// =============================================================================
+const universeThemesEnLabels = {
+  none: '❌ Unspecified',
+  random: '🎲 Random',
+  custom: '🎨 Custom',
+  medieval: '🏰 Medieval Fantasy',
+  scifi: '🚀 Sci-Fi / Space',
+  cyberpunk: '🌆 Cyberpunk',
+  modern: '☕ Modern Day',
+  postapoc: '🏚️ Post-Apocalypse',
+  historical: '🎭 Historical',
+  horror: '🌑 Horror',
+  dream: '💫 Dream / Surreal',
+  thaidrama: '📺 Thai Drama (Lakorn)',
+  thaifolk: '🐍 Thai Mythology',
+  kemono: '🐾 Kemono / Beast-folk',
+  prehistoric: '🦕 Prehistoric',
+  wuxia: '⚔️ Wuxia / Cultivation',
+  pirate: '🏴‍☠️ Pirate Age',
+  underwater: '🧜 Underwater Kingdom',
+  zombie: '🧟 Zombie Apocalypse',
+  isekai: '🌀 Isekai / Another World',
+  mafia: '🔫 Mafia / Underworld',
+  steampunk: '⚙️ Steampunk',
+  fairytale: '👑 Fairy Tale',
+  mythology: '⚡ Mythology',
+  school: '🎒 School Life',
+  idol: '🎤 Idol / Celebrity',
+  vampire: '🧛 Vampire / Gothic',
+  mecha: '🤖 Mecha',
+  noir: '🕵️ Film Noir Detective',
+  timeloop: '⏳ Time Loop',
+  virtualworld: '🎮 Virtual World',
+  spiritworld: '👻 Spirit World',
+  desert: '🏜️ Mystic Desert',
+  cooking: '🍳 Culinary Battle',
+  circus: '🎪 Magical Circus',
+  omegaverse: '🐺 Omegaverse',
+  superhero: '🦸 Superheroes',
+  royal: '👑 Royal Court',
+  yokai: '🦊 Japanese Yokai',
+  wildwest: '🤠 Wild West',
+  spaceopera: '🌌 Space Opera',
+  detective: '🔍 Detective Mystery',
+  samurai: '⚔️ Samurai',
+  apocalypse: '☄️ Apocalypse',
+  carnival: '🎭 Dark Carnival',
+  monastery: '🏯 Mystical Monastery',
+  asylum: '🏥 Asylum',
+  library: '📚 Ancient Library',
+  casino: '🎰 Casino',
+  lighthouse: '🗼 Lighthouse',
+};
+
+const encounterTypesEnLabels = {
+  none: '❌ Unspecified',
+  random: '🎲 Random',
+  custom: '🎨 Custom',
+  firstMeet: '💫 First Meeting',
+  reunion: '🔄 Reunion',
+  rivals: '⚔️ Rivals / Enemies',
+  allies: '🤝 Allies',
+  bittersweet: '💔 Bittersweet Love',
+  mistaken: '🎭 Mistaken Identity',
+  fated: '🌙 Fated',
+  protector: '🛡️ Protector',
+  forbidden: '🚫 Forbidden Love',
+  childhood: '🌟 Childhood Friends',
+  master_servant: '👑 Master & Servant',
+  savior: '🩺 Life-Saver',
+  reincarnation: '🔮 Reincarnation',
+  strangers_night: '🌃 One Night Strangers',
+  accidental: '💥 Accidental Meeting',
+  fakeDating: '💍 Fake Dating',
+  arrangedMarriage: '📜 Arranged Marriage',
+  roommates: '🏠 Roommates',
+  amnesia: '🧠 Amnesia',
+  betrayal: '🔪 Betrayal',
+  soulmates: '✨ Soulmates',
+  timeTravel: '⏳ Time Travel',
+  penPals: '✉️ Pen Pals',
+  bodySwap: '🧬 Body Swap',
+  experiment: '🧪 Experiment',
+  vampireBlood: '🩸 Blood Source',
+  ghostHuman: '👻 Ghost & Human',
+  demonPact: '😈 Demon Pact',
+  stalker: '👁️ Stalker',
+  sugarDaddy: '💸 Sugar Daddy / Kept',
+  identityReveal: '🎭 Identity Reveal',
+  multiverseGlitch: '🌌 Multiverse Glitch',
+  doppelganger: '🪞 Doppelganger',
+  hostage: '🔫 Hostage',
+  auction: '💰 Auction',
+  shipwreck: '🚢 Shipwreck',
+  maskedball: '🎭 Masked Ball',
+  prison: '⛓️ Prison',
+  competition: '🏆 Competition',
+  blackmail: '📸 Blackmail',
+  inheritance: '💎 Inheritance',
+  witness: '👁️ Witness Protection',
+  curse: '🔮 Curse',
+  dreamsharing: '💭 Dream Sharing',
+  bounty: '🎯 Bounty Hunter',
+  teacher: '📖 Teacher & Student',
+  heist: '💎 Heist',
+};
+
+const moodTypesEnLabels = {
+  none: '❌ Unspecified',
+  random: '🎲 Random',
+  custom: '🎨 Custom',
+  romantic: '💕 Romantic',
+  comedic: '😂 Comedic',
+  dark: '🖤 Dark / Tense',
+  melancholic: '🌧️ Melancholic',
+  mysterious: '🔮 Mysterious',
+  wholesome: '🌻 Wholesome',
+  chaotic: '🌪️ Chaotic',
+  sensual: '🔥 Sensual',
+  epic: '🌋 Epic',
+  playful: '😜 Playful / Teasing',
+  nostalgic: '🌅 Nostalgic',
+  suspenseful: '😨 Suspenseful',
+  dreamy: '🌙 Dreamy',
+  angsty: '😭 Angsty',
+  fluff: '☁️ Fluff',
+  passionate: '💋 Passionate',
+  yandere: '🔪 Yandere',
+  tragic: '🥀 Tragic',
+  tsundere: '😤 Tsundere',
+  healing: '🩹 Healing',
+  jealousy: '😒 Jealousy',
+  unrequited: '💔 Unrequited Love',
+  morallyGrey: '🎭 Morally Grey',
+  gore: '🩸 Gore / Violent',
+  mindbreak: '🧠 Mind Break',
+  pureDevotion: '💖 Pure Devotion',
+  trapped: '🕸️ Trapped',
+  decadent: '🍷 Decadent',
+  starving: '🤤 Starving (for them)',
+  domestic: '🧸 Domestic',
+  outOfTime: '⏳ Out of Time',
+  masquerade: '🎭 Masquerade',
+  bittersweet: '💐 Bittersweet',
+  obsessive: '🔗 Obsessive',
+  ethereal: '✨ Ethereal',
+  vengeful: '⚔️ Vengeful',
+  hopeful: '🌈 Hopeful',
+  toxic: '☠️ Toxic',
+  protective: '🛡️ Protective',
+  whimsical: '🎨 Whimsical',
+  haunting: '👻 Haunting',
+  electric: '⚡ Electric',
+  serene: '🕊️ Serene',
+};
+
+// Locale-aware label getters: return EN label when current locale is EN,
+// otherwise the original Thai label baked into universeThemes/encounterTypes/moodTypes.
+function getThemeLabel(themeId) {
+  if (getCurrentLang() === 'en') {
+    return universeThemesEnLabels[themeId] || universeThemes[themeId]?.label || themeId;
+  }
+  return universeThemes[themeId]?.label || themeId;
+}
+function getEncounterLabel(encounterId) {
+  if (getCurrentLang() === 'en') {
+    return encounterTypesEnLabels[encounterId] || encounterTypes[encounterId]?.label || encounterId;
+  }
+  return encounterTypes[encounterId]?.label || encounterId;
+}
+function getMoodLabel(moodId) {
+  if (getCurrentLang() === 'en') {
+    return moodTypesEnLabels[moodId] || moodTypes[moodId]?.label || moodId;
+  }
+  return moodTypes[moodId]?.label || moodId;
+}
+
+// Localized optgroup labels for the dropdowns
+const OPTGROUP_LABELS = {
+  th: {
+    classic: '── คลาสสิก (Classic) ──',
+    wildUnique: '── แปลกใหม่ (Wild & Unique) ──',
+    new: '── ใหม่ (New) ──',
+    extra: '── พิเศษ (Extra) ──',
+    spicyWild: '── เผ็ดร้อน / ดาร์ก (Spicy & Wild) ──',
+    darkSpicy: '── มืดหม่น / ร้อนแรง (Dark & Spicy) ──',
+  },
+  en: {
+    classic: '── Classic ──',
+    wildUnique: '── Wild & Unique ──',
+    new: '── New ──',
+    extra: '── Extra ──',
+    spicyWild: '── Spicy & Wild ──',
+    darkSpicy: '── Dark & Spicy ──',
+  },
+};
 
 // Default settings
 const defaultSettings = {
   enabled: false,
+  language: 'auto', // 'auto' | 'th' | 'en'
   selectedTheme: 'random',
   selectedEncounter: 'random',
   selectedMood: 'random',
@@ -1253,7 +1829,49 @@ async function loadSettings() {
   if (typeof extension_settings[extensionName].customMood !== 'string') {
     extension_settings[extensionName].customMood = '';
   }
+  if (
+    extension_settings[extensionName].language !== 'th' &&
+    extension_settings[extensionName].language !== 'en' &&
+    extension_settings[extensionName].language !== 'auto'
+  ) {
+    extension_settings[extensionName].language = defaultSettings.language;
+  }
+  // Resolve and apply the active locale based on user pref + ST/browser locale
+  setCurrentLang(resolveLocale());
+
   $('#another_universe_enabled').prop('checked', extension_settings[extensionName].enabled);
+  $('#another_universe_language').val(extension_settings[extensionName].language || 'auto');
+}
+
+// Handle language change
+function onLanguageChange(event) {
+  const value = $(event.target).val();
+  extension_settings[extensionName].language = value;
+  saveSettingsDebounced();
+  setCurrentLang(resolveLocale());
+  console.log(`[${extensionName}] Language set to:`, value, '→ active:', getCurrentLang());
+  // Re-render any open popup so the new locale takes effect immediately
+  if ($('#another-universe-modal-overlay').length) {
+    // Quick popup
+    if ($('#au-quick-theme').length) {
+      $('#another-universe-modal-overlay').remove();
+      showQuickSettings();
+    }
+  }
+  // Update settings panel labels too
+  applyPanelLocale();
+}
+
+// Apply locale to the static settings panel (non-inputs)
+function applyPanelLocale() {
+  $('label[for="another_universe_enabled"] b').text(t('panel.enable_label'));
+  $('#another_universe_gallery_btn').val(t('panel.gallery_btn'));
+  $('#another_universe_panel_hint').html(t('panel.hint'));
+  $('#another_universe_lang_label').text(t('panel.lang_label'));
+  // Update language dropdown options
+  $('#another_universe_language option[value="auto"]').text(t('panel.lang_auto'));
+  $('#another_universe_language option[value="th"]').text(t('panel.lang_th'));
+  $('#another_universe_language option[value="en"]').text(t('panel.lang_en'));
 }
 
 // Generic sanitizer for any user-provided custom field
@@ -1345,7 +1963,7 @@ function getOverlayStyle() {
 function showQuickSettings() {
   const isEnabled = extension_settings[extensionName].enabled;
   if (!isEnabled) {
-    toastr.warning('กรุณาเปิดใช้งาน Extension ก่อนนะ!', '🌌 Another Universe'); // Please enable the extension first!
+    toastr.warning(t('common.please_enable'), t('common.another_universe'));
     return;
   }
   $('#another-universe-modal-overlay').remove();
@@ -1355,13 +1973,13 @@ function showQuickSettings() {
   const curMood = extension_settings[extensionName].selectedMood || 'random';
 
   const themeOpts = Object.entries(universeThemes)
-    .map(([k, v]) => `<option value="${k}" ${k === curTheme ? 'selected' : ''}>${v.label}</option>`)
+    .map(([k]) => `<option value="${k}" ${k === curTheme ? 'selected' : ''}>${getThemeLabel(k)}</option>`)
     .join('');
   const encOpts = Object.entries(encounterTypes)
-    .map(([k, v]) => `<option value="${k}" ${k === curEncounter ? 'selected' : ''}>${v.label}</option>`)
+    .map(([k]) => `<option value="${k}" ${k === curEncounter ? 'selected' : ''}>${getEncounterLabel(k)}</option>`)
     .join('');
   const moodOpts = Object.entries(moodTypes)
-    .map(([k, v]) => `<option value="${k}" ${k === curMood ? 'selected' : ''}>${v.label}</option>`)
+    .map(([k]) => `<option value="${k}" ${k === curMood ? 'selected' : ''}>${getMoodLabel(k)}</option>`)
     .join('');
 
   const curCustomTheme = extension_settings[extensionName].customTheme || '';
@@ -1380,53 +1998,53 @@ function showQuickSettings() {
         <div class="au-universal-popup au-quick-popup">
             <div class="au-universal-popup-header">
                 <div class="au-card-front-header-text">
-                    <span class="au-modal-title">🌌 Another Universe</span>
-                    <span class="au-modal-theme-badge">เลือกการตั้งค่าแล้วกด Generate</span> <!-- Select settings and press Generate -->
+                    <span class="au-modal-title">${t('quick.title')}</span>
+                    <span class="au-modal-theme-badge">${t('quick.subtitle')}</span>
                 </div>
                 <div style="display: flex; gap: 4px; align-items: center;">
-                    <span id="au-quick-info" class="au-modal-close" title="เกี่ยวกับโปรเจกต์ (About)">ℹ️</span> <!-- About the project -->
+                    <span id="au-quick-info" class="au-modal-close" title="${t('quick.about_tooltip')}">ℹ️</span>
                     <span id="au-modal-close" class="au-modal-close">✕</span>
                 </div>
             </div>
             <div class="au-universal-popup-body au-quick-body">
                 <div class="au-quick-row">
-                    <label>🎭 Theme</label>
+                    <label>${t('quick.theme')}</label>
                     <select id="au-quick-theme" class="text_pole">${themeOpts}</select>
                 </div>
                 <div class="au-quick-row">
-                    <label>💫 Encounter</label>
+                    <label>${t('quick.encounter')}</label>
                     <select id="au-quick-encounter" class="text_pole">${encOpts}</select>
                 </div>
                 <div class="au-quick-row">
-                    <label>🎨 Mood</label>
+                    <label>${t('quick.mood')}</label>
                     <select id="au-quick-mood" class="text_pole">${moodOpts}</select>
                 </div>
                 <div id="au-quick-custom-wrap" class="au-quick-row" style="${themeCustomDisplay} flex-direction:column; align-items:stretch; padding-top:8px; border-top:1px dashed rgba(130,100,255,0.15);">
                     <label style="display:flex; justify-content:space-between; align-items:center;">
-                        <span>✏️ บรรยายโลกของคุณ</span>
+                        <span>${t('quick.custom_theme_label')}</span>
                         <span id="au-quick-custom-count" style="font-size:0.7em; color:#9090b0;">${curCustomTheme.length}/${CUSTOM_THEME_MAX_LENGTH}</span>
                     </label>
-                    <textarea id="au-quick-custom-theme" class="text_pole" rows="4" maxlength="${CUSTOM_THEME_MAX_LENGTH}" placeholder="เช่น: โลกที่มนุษย์อยู่ร่วมกับมังกรในเมืองลอยฟ้า ผู้ฝึกมังกรจะถูกเลือกตั้งแต่เด็กให้ผูกพันกับมังกรหนึ่งตัวไปตลอดชีวิต..." style="width:100%; resize:vertical; min-height:88px; margin-top:4px;">${escapedCustomTheme}</textarea>
+                    <textarea id="au-quick-custom-theme" class="text_pole" rows="4" maxlength="${CUSTOM_THEME_MAX_LENGTH}" placeholder="${escapeHtml(t('quick.custom_theme_placeholder'))}" style="width:100%; resize:vertical; min-height:88px; margin-top:4px;">${escapedCustomTheme}</textarea>
                 </div>
                 <div id="au-quick-custom-encounter-wrap" class="au-quick-row" style="${encounterCustomDisplay} flex-direction:column; align-items:stretch; padding-top:8px; border-top:1px dashed rgba(130,100,255,0.15);">
                     <label style="display:flex; justify-content:space-between; align-items:center;">
-                        <span>✏️ บรรยายการพบเจอของคุณ</span>
+                        <span>${t('quick.custom_encounter_label')}</span>
                         <span id="au-quick-custom-encounter-count" style="font-size:0.7em; color:#9090b0;">${curCustomEncounter.length}/${CUSTOM_ENCOUNTER_MAX_LENGTH}</span>
                     </label>
-                    <textarea id="au-quick-custom-encounter" class="text_pole" rows="3" maxlength="${CUSTOM_ENCOUNTER_MAX_LENGTH}" placeholder="เช่น: ทั้งคู่เป็นนักดวลมังกรในการแข่งขันใหญ่ ฝ่ายหนึ่งคือแชมป์เก่า อีกฝ่ายเป็นมือใหม่ที่เข้ามาท้าทาย..." style="width:100%; resize:vertical; min-height:72px; margin-top:4px;">${escapedCustomEncounter}</textarea>
+                    <textarea id="au-quick-custom-encounter" class="text_pole" rows="3" maxlength="${CUSTOM_ENCOUNTER_MAX_LENGTH}" placeholder="${escapeHtml(t('quick.custom_encounter_placeholder'))}" style="width:100%; resize:vertical; min-height:72px; margin-top:4px;">${escapedCustomEncounter}</textarea>
                 </div>
                 <div id="au-quick-custom-mood-wrap" class="au-quick-row" style="${moodCustomDisplay} flex-direction:column; align-items:stretch; padding-top:8px; border-top:1px dashed rgba(130,100,255,0.15);">
                     <label style="display:flex; justify-content:space-between; align-items:center;">
-                        <span>✏️ บรรยายอารมณ์ / โทนของคุณ</span>
+                        <span>${t('quick.custom_mood_label')}</span>
                         <span id="au-quick-custom-mood-count" style="font-size:0.7em; color:#9090b0;">${curCustomMood.length}/${CUSTOM_MOOD_MAX_LENGTH}</span>
                     </label>
-                    <textarea id="au-quick-custom-mood" class="text_pole" rows="3" maxlength="${CUSTOM_MOOD_MAX_LENGTH}" placeholder="เช่น: เคร่งขรึมแต่เปื้อนความหวัง บทสนทนาห้วนสั้นแต่แต่ละคำมีน้ำหนัก ทุกการมองตามีเดิมพันสูง..." style="width:100%; resize:vertical; min-height:72px; margin-top:4px;">${escapedCustomMood}</textarea>
+                    <textarea id="au-quick-custom-mood" class="text_pole" rows="3" maxlength="${CUSTOM_MOOD_MAX_LENGTH}" placeholder="${escapeHtml(t('quick.custom_mood_placeholder'))}" style="width:100%; resize:vertical; min-height:72px; margin-top:4px;">${escapedCustomMood}</textarea>
                 </div>
-                <div style="font-size:0.75em; color:#9090b0; text-align:center; padding-top:8px; border-top:1px dashed rgba(130,100,255,0.15);">💡 ผลลัพธ์อาจแตกต่างกันตาม AI model และ preset ที่ใช้</div> <!-- Results may vary depending on AI model and preset used -->
+                <div style="font-size:0.75em; color:#9090b0; text-align:center; padding-top:8px; border-top:1px dashed rgba(130,100,255,0.15);">${t('common.results_may_vary')}</div>
             </div>
             <div class="au-universal-popup-footer au-quick-footer">
-                <input id="au-quick-gallery" class="menu_button" type="submit" value="📚 Gallery" />
-                <input id="au-quick-generate" class="menu_button" type="submit" value="✨ Generate" />
+                <input id="au-quick-gallery" class="menu_button" type="submit" value="${t('quick.gallery_btn')}" />
+                <input id="au-quick-generate" class="menu_button" type="submit" value="${t('quick.generate_btn')}" />
             </div>
         </div>
     </div>`;
@@ -1749,7 +2367,7 @@ function saveToGallery(charName, storyText, themeBadge, themeId, extra = {}) {
 
     // Warn if too many favorites
     if (favoriteCount >= MAX_FAVORITES) {
-      toastr.warning('คุณมี favorites เยอะมาก (100+) กรุณาลบบางเรื่องเพื่อประสิทธิภาพที่ดีขึ้น', '⚠️ Gallery Full');
+      toastr.warning(t('gallery.favorites_warning'), t('gallery.favorites_full_title'));
     }
 
     // Remove oldest non-favorite
@@ -1770,7 +2388,7 @@ function saveToGallery(charName, storyText, themeBadge, themeId, extra = {}) {
     // Handle localStorage quota exceeded
     if (error.name === 'QuotaExceededError' || error.message.includes('quota')) {
       console.error(`[${extensionName}] ❌ Storage quota exceeded`);
-      toastr.error('พื้นที่จัดเก็บเต็ม! กรุณาลบเรื่องเก่าใน Gallery', '🌌 Another Universe');
+      toastr.error(t('gallery.storage_full'), t('common.another_universe'));
       // Remove the entry we just added since it couldn't be saved
       gallery.shift();
     } else {
@@ -1813,9 +2431,7 @@ function showGalleryModal(showFavOnly = false) {
 
   let listHtml = '';
   if (filtered.length === 0) {
-    const msg = showFavOnly
-      ? 'ยังไม่มีเรื่องโปรด<br><small>กด ⭐ เพื่อเพิ่ม!</small>' // No favorites yet. Press ⭐ to add!
-      : 'ยังไม่มีเรื่องราวในแกลเลอรี<br><small>กด Generate เพื่อสร้างเรื่องแรก!</small>'; // No stories in gallery yet. Press Generate to create your first!
+    const msg = showFavOnly ? t('gallery.empty_favorites') : t('gallery.empty');
     listHtml = `<div style="text-align:center;padding:40px 20px;color:rgba(180,160,255,0.5);">${msg}</div>`;
   } else {
     listHtml = filtered
@@ -1823,19 +2439,27 @@ function showGalleryModal(showFavOnly = false) {
         const realIndex = gallery.indexOf(entry);
         const preview = entry.storyText.substring(0, 100).replace(/</g, '&lt;') + '...';
         const starClass = entry.isFavorite ? 'au-star-active' : '';
+        // Rebuild badge in the active locale when we have ids; fall back to the saved snapshot.
+        const localizedBadge = (() => {
+          if (!entry.themeId) return entry.themeBadge || '';
+          const parts = [getThemeLabel(entry.themeId)];
+          if (entry.encounterId && entry.encounterId !== 'none') parts.push(getEncounterLabel(entry.encounterId));
+          if (entry.moodId && entry.moodId !== 'none') parts.push(getMoodLabel(entry.moodId));
+          return parts.join(' · ');
+        })();
         return `
             <div class="au-gallery-item" data-index="${realIndex}">
                 <div class="au-gallery-item-header">
                     <span class="au-gallery-item-char">🌌 ${entry.charName}</span>
                     <div class="au-gallery-item-actions">
-                        <span class="au-gallery-star ${starClass}" data-index="${realIndex}" title="Favorite">⭐</span>
-                        <span class="au-gallery-export" data-index="${realIndex}" title="Export as Character Card (.png)" style="cursor:pointer;">🎴</span>
-                        <span class="au-gallery-export-json" data-index="${realIndex}" title="Export as JSON (.json)" style="cursor:pointer;">🗂️</span>
-                        <span class="au-gallery-delete" data-index="${realIndex}" title="Delete">🗑️</span>
+                        <span class="au-gallery-star ${starClass}" data-index="${realIndex}" title="${t('gallery.title_favorite')}">⭐</span>
+                        <span class="au-gallery-export" data-index="${realIndex}" title="${t('gallery.title_export_png')}" style="cursor:pointer;">🎴</span>
+                        <span class="au-gallery-export-json" data-index="${realIndex}" title="${t('gallery.title_export_json')}" style="cursor:pointer;">🗂️</span>
+                        <span class="au-gallery-delete" data-index="${realIndex}" title="${t('gallery.title_delete')}">🗑️</span>
                     </div>
                 </div>
                 <div class="au-gallery-item-meta">
-                    <span class="au-gallery-item-badge">${entry.themeBadge}</span>
+                    <span class="au-gallery-item-badge">${localizedBadge}</span>
                     <span class="au-gallery-item-time">${entry.timestamp}</span>
                 </div>
                 <div class="au-gallery-item-preview">${preview}</div>
@@ -1844,15 +2468,17 @@ function showGalleryModal(showFavOnly = false) {
       .join('');
   }
 
-  const favBtnLabel = showFavOnly ? '📚 All' : '⭐ Favorites';
-  const countLabel = showFavOnly ? `${filtered.length} favorites` : `${gallery.length} เรื่องราว`; // stories
+  const favBtnLabel = showFavOnly ? t('gallery.filter_all') : t('gallery.filter_fav');
+  const countLabel = showFavOnly
+    ? t('gallery.favorites_count', { count: filtered.length })
+    : t('gallery.stories_count', { count: gallery.length });
 
   const modalHtml = `
     <div id="another-universe-modal-overlay" style="${getOverlayStyle()}">
         <div class="au-universal-popup">
             <div class="au-universal-popup-header">
                 <div class="au-card-front-header-text">
-                    <span class="au-modal-title">📚 แกลเลอรีจักรวาลคู่ขนาน</span> <!-- Parallel Universe Gallery -->
+                    <span class="au-modal-title">${t('gallery.title')}</span>
                     <span class="au-modal-theme-badge">${countLabel}</span>
                 </div>
                 <span id="au-modal-close" class="au-modal-close">✕</span>
@@ -1862,8 +2488,8 @@ function showGalleryModal(showFavOnly = false) {
             </div>
             <div class="au-universal-popup-footer" style="display:flex; flex-direction:row; gap:8px; justify-content:center;">
                 <input id="au-gallery-filter" class="menu_button" type="submit" value="${favBtnLabel}" style="flex:1;" />
-                <input id="au-gallery-backup" class="menu_button" type="submit" value="💾 Backup" title="Export all stories" style="flex:1;" />
-                <input id="au-gallery-clear" class="menu_button" type="submit" value="🗑️ Clear All" style="flex:1;" />
+                <input id="au-gallery-backup" class="menu_button" type="submit" value="${t('gallery.backup')}" title="Export all stories" style="flex:1;" />
+                <input id="au-gallery-clear" class="menu_button" type="submit" value="${t('gallery.clear')}" style="flex:1;" />
             </div>
         </div>
     </div>`;
@@ -1892,7 +2518,7 @@ function showGalleryModal(showFavOnly = false) {
     const index = $(this).data('index');
     const entry = (extension_settings[extensionName].gallery || [])[index];
     if (!entry) {
-      toastr.error('ไม่พบข้อมูลในแกลเลอรี', '🎴 Another Universe'); // Gallery entry not found
+      toastr.error(t('card.gallery_entry_not_found'), t('card.title_png'));
       return;
     }
     const $self = $(this);
@@ -1911,7 +2537,7 @@ function showGalleryModal(showFavOnly = false) {
     const index = $(this).data('index');
     const entry = (extension_settings[extensionName].gallery || [])[index];
     if (!entry) {
-      toastr.error('ไม่พบข้อมูลในแกลเลอรี', '🗂️ Another Universe');
+      toastr.error(t('card.gallery_entry_not_found'), t('card.title_json'));
       return;
     }
     const $self = $(this);
@@ -1938,10 +2564,10 @@ function showGalleryModal(showFavOnly = false) {
 
   // Backup to TXT
   $('#au-gallery-backup').on('click', () => {
-    if (gallery.length === 0) return toastr.info('ไม่มีเรื่องราวให้บันทึก', '🌌 Another Universe'); // No stories to backup
+    if (gallery.length === 0) return toastr.info(t('gallery.no_backup'), t('common.another_universe'));
 
-    let content = '🌌 ANOTHER UNIVERSE - GALLERY BACKUP 🌌\n';
-    content += 'Generated on: ' + new Date().toLocaleString() + '\n\n';
+    let content = `${t('gallery.backup_header')}\n`;
+    content += `${t('gallery.backup_generated')} ${new Date().toLocaleString()}\n\n`;
 
     gallery.forEach((entry, idx) => {
       content += `==========================================\n`;
@@ -1960,13 +2586,12 @@ function showGalleryModal(showFavOnly = false) {
     a.download = `Another_Universe_Backup_${new Date().toISOString().slice(0, 10)}.txt`;
     a.click();
     URL.revokeObjectURL(url);
-    toastr.success('สำรองข้อมูลเรียบร้อยแล้ว!', '🌌 Another Universe'); // Backup completed successfully!
+    toastr.success(t('gallery.backup_done'), t('common.another_universe'));
   });
 
   // Clear all
   $('#au-gallery-clear').on('click', () => {
-    if (confirm('ลบเรื่องราวทั้งหมดในแกลเลอรี?')) {
-      // Delete all stories in gallery?
+    if (confirm(t('gallery.confirm_clear'))) {
       clearGallery();
     }
   });
@@ -2365,7 +2990,7 @@ function showMobileScreenshotView(type, charName, storyText, themeName, themeId 
 <body>
     <div id="loadingOverlay">
         <div class="spinner">⏳</div>
-        <div style="color: #d0c8e8; font-weight: bold; letter-spacing: 1px;">กำลังสร้างรูปภาพ...</div> <!-- Generating image... -->
+        <div style="color: #d0c8e8; font-weight: bold; letter-spacing: 1px;">${t('loading.generating_image')}</div>
     </div>
     <div class="card" id="cardView">
         ${cardContent}
@@ -2469,17 +3094,17 @@ function showMobileScreenshotView(type, charName, storyText, themeName, themeId 
         console.error('[Another-Universe] ❌ Failed to render image in new tab', err);
         // Fallback: hide loading, show HTML card, user can screenshot
         loadingOverlay.style.display = 'none';
-        toastr.warning('สร้างรูปภาพไม่สำเร็จ แตะที่หน้าจอเพื่อย้อนกลับ หรือแคปหน้าจอแทน', 'Another Universe'); // Image generation failed. Tap screen to go back or take screenshot instead
+        toastr.warning(t('image.mobile_render_failed'), t('common.another_universe'));
       }
     };
 
     // Start the rendering process
     setTimeout(attachEvents, 100);
 
-    toastr.success('เปิดแท็บใหม่แล้ว กำลังสร้างรูปภาพ...', '🌌 Another Universe'); // New tab opened, generating image...
+    toastr.success(t('image.new_tab_opened'), t('common.another_universe'));
   } else {
     console.warn('[Another-Universe] ⚠️ Popup blocked');
-    toastr.warning('บราวเซอร์บล็อก popup — กรุณาอนุญาต popup แล้วลองใหม่', '⚠️ Another Universe'); // Browser blocked popup — please allow popups and try again
+    toastr.warning(t('image.popup_blocked'), t('common.warning_title'));
   }
 }
 
@@ -2510,16 +3135,16 @@ function showStoryModal(charName, storyText, themeName, themeId = 'random') {
     // Simple horizontal row for mobile
     footerHtml = `
             <div class="au-universal-popup-footer" style="display:flex; flex-direction:row; flex-wrap:wrap; justify-content:center; gap:8px; padding:12px; border-top:1px solid rgba(130, 160, 220, 0.2);">
-                <button id="au-modal-edit" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;">✏️ Edit</button>
-                <button id="au-modal-save-long" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;">📖 Long</button>
-                <button id="au-modal-save-short" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;">✨ Short</button>
-                <button id="au-modal-export-card" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;" title="Export as SillyTavern character card (.png)">🎴 PNG</button>
-                <button id="au-modal-export-json" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;" title="Export as Character Card V2 JSON (.json)">🗂️ JSON</button>
-                <button id="au-modal-regenerate" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;">🔄 New</button>
+                <button id="au-modal-edit" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;">${t('story.edit_short')}</button>
+                <button id="au-modal-save-long" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;">${t('story.long_short')}</button>
+                <button id="au-modal-save-short" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;">${t('story.short_short')}</button>
+                <button id="au-modal-export-card" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;" title="Export as SillyTavern character card (.png)">${t('story.export_png_short')}</button>
+                <button id="au-modal-export-json" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;" title="Export as Character Card V2 JSON (.json)">${t('story.export_json_short')}</button>
+                <button id="au-modal-regenerate" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;">${t('story.regenerate_short')}</button>
             </div>
             <div id="au-modal-edit-controls" class="au-universal-popup-footer" style="display:none; flex-direction:row; justify-content:center; gap:8px; padding:12px; border-top:1px solid rgba(130, 160, 220, 0.2);">
-                <button id="au-modal-save-edit" style="flex:1; padding:8px 4px; border-radius:8px; background:rgba(50,200,50,0.3); color:#66ff66; border:1px solid rgba(50,200,50,0.7); font-size:0.9em; cursor:pointer; font-weight:600; transition:all 0.2s ease; box-shadow:0 2px 8px rgba(50,200,50,0.2);">💾 Save</button>
-                <button id="au-modal-cancel-edit" style="flex:1; padding:8px 4px; border-radius:8px; background:rgba(255,50,50,0.3); color:#ff6666; border:1px solid rgba(255,50,50,0.7); font-size:0.9em; cursor:pointer; font-weight:600; transition:all 0.2s ease; box-shadow:0 2px 8px rgba(255,50,50,0.2);">✕ Cancel</button>
+                <button id="au-modal-save-edit" style="flex:1; padding:8px 4px; border-radius:8px; background:rgba(50,200,50,0.3); color:#66ff66; border:1px solid rgba(50,200,50,0.7); font-size:0.9em; cursor:pointer; font-weight:600; transition:all 0.2s ease; box-shadow:0 2px 8px rgba(50,200,50,0.2);">${t('story.save_edit_short')}</button>
+                <button id="au-modal-cancel-edit" style="flex:1; padding:8px 4px; border-radius:8px; background:rgba(255,50,50,0.3); color:#ff6666; border:1px solid rgba(255,50,50,0.7); font-size:0.9em; cursor:pointer; font-weight:600; transition:all 0.2s ease; box-shadow:0 2px 8px rgba(255,50,50,0.2);">${t('story.cancel_edit_short')}</button>
             </div>
             <style>
                 #au-modal-save-edit:hover { background:rgba(50,200,50,0.5) !important; border-color:rgba(50,200,50,0.9) !important; box-shadow:0 4px 12px rgba(50,200,50,0.4) !important; transform:translateY(-1px); }
@@ -2531,17 +3156,17 @@ function showStoryModal(charName, storyText, themeName, themeId = 'random') {
   } else {
     footerHtml = `
             <div class="au-universal-popup-footer" style="flex-wrap: wrap;">
-                <input id="au-modal-edit" class="menu_button" type="submit" value="✏️ Edit Story" title="Edit story text" />
-                <input id="au-modal-save-long" class="menu_button" type="submit" value="📸 Long Card" title="Save full story" />
-                <input id="au-modal-save-short" class="menu_button" type="submit" value="📸 Short Card" title="Save quote & snippet" />
-                <input id="au-modal-export-card" class="menu_button" type="submit" value="🎴 Export PNG Card" title="Export as SillyTavern character card (.png)" />
-                <input id="au-modal-export-json" class="menu_button" type="submit" value="🗂️ Export JSON" title="Export as Character Card V2 JSON (.json) — portable" />
-                <input id="au-modal-regenerate" class="menu_button" type="submit" value="🔄 Generate" />
-                <input id="au-modal-close-btn" class="menu_button" type="submit" value="Close" />
+                <input id="au-modal-edit" class="menu_button" type="submit" value="${t('story.edit')}" title="Edit story text" />
+                <input id="au-modal-save-long" class="menu_button" type="submit" value="${t('story.long_card')}" title="Save full story" />
+                <input id="au-modal-save-short" class="menu_button" type="submit" value="${t('story.short_card')}" title="Save quote & snippet" />
+                <input id="au-modal-export-card" class="menu_button" type="submit" value="${t('story.export_png')}" title="Export as SillyTavern character card (.png)" />
+                <input id="au-modal-export-json" class="menu_button" type="submit" value="${t('story.export_json')}" title="Export as Character Card V2 JSON (.json) — portable" />
+                <input id="au-modal-regenerate" class="menu_button" type="submit" value="${t('story.regenerate')}" />
+                <input id="au-modal-close-btn" class="menu_button" type="submit" value="${t('story.close')}" />
             </div>
             <div id="au-modal-edit-controls" class="au-universal-popup-footer" style="display:none; flex-wrap: wrap;">
-                <input id="au-modal-save-edit" class="menu_button au-edit-save-btn" type="submit" value="💾 Save Changes" style="background:rgba(50,200,50,0.3); border-color:rgba(50,200,50,0.7); color:#66ff66; font-weight:600; transition:all 0.2s ease; box-shadow:0 2px 8px rgba(50,200,50,0.2);" />
-                <input id="au-modal-cancel-edit" class="menu_button au-edit-cancel-btn" type="submit" value="✕ Cancel" style="background:rgba(255,50,50,0.3); border-color:rgba(255,50,50,0.7); color:#ff6666; font-weight:600; transition:all 0.2s ease; box-shadow:0 2px 8px rgba(255,50,50,0.2);" />
+                <input id="au-modal-save-edit" class="menu_button au-edit-save-btn" type="submit" value="${t('story.save_edit')}" style="background:rgba(50,200,50,0.3); border-color:rgba(50,200,50,0.7); color:#66ff66; font-weight:600; transition:all 0.2s ease; box-shadow:0 2px 8px rgba(50,200,50,0.2);" />
+                <input id="au-modal-cancel-edit" class="menu_button au-edit-cancel-btn" type="submit" value="${t('story.cancel_edit')}" style="background:rgba(255,50,50,0.3); border-color:rgba(255,50,50,0.7); color:#ff6666; font-weight:600; transition:all 0.2s ease; box-shadow:0 2px 8px rgba(255,50,50,0.2);" />
             </div>
             <style>
                 .au-edit-save-btn:hover { background:rgba(50,200,50,0.5) !important; border-color:rgba(50,200,50,0.9) !important; box-shadow:0 4px 12px rgba(50,200,50,0.4) !important; transform:translateY(-1px); }
@@ -2628,7 +3253,7 @@ function showStoryModal(charName, storyText, themeName, themeId = 'random') {
     $('#au-story-display').show();
     $('#au-modal-edit-controls').hide();
     $('.au-universal-popup-footer').first().show();
-    toastr.success('Story updated successfully', '✏️ Another Universe');
+    toastr.success(t('story.story_updated'), '✏️ Another Universe');
   });
 
   // Bind cancel edit
@@ -2757,7 +3382,7 @@ function showStoryModal(charName, storyText, themeName, themeId = 'random') {
           document.head.appendChild(script);
         });
       } catch (e) {
-        toastr.error('ไม่สามารถโหลดไลบรารี html2canvas ได้', 'Error'); // Cannot load html2canvas library
+        toastr.error(t('image.cannot_load_html2canvas'), 'Error');
         btn.val(originalText).prop('disabled', false);
         return;
       }
@@ -2994,7 +3619,7 @@ function showStoryModal(charName, storyText, themeName, themeId = 'random') {
     const loadingHtml = `
         <div id="au-render-loading" style="${getOverlayStyle()}; z-index:999999; flex-direction:column; background:rgba(0,0,0,0.85);">
             <div style="font-size:3.5em;animation:au-spin 1s linear infinite;">⏳</div>
-            <div style="margin-top:24px;font-size:1.1em;font-weight:bold;letter-spacing:1px;color:#d0c8e8;">กำลังบันทึกความทรงจำ...</div> <!-- Saving memory... -->
+            <div style="margin-top:24px;font-size:1.1em;font-weight:bold;letter-spacing:1px;color:#d0c8e8;">${t('loading.saving_memory')}</div>
             <style>@keyframes au-spin { 100% { transform: rotate(360deg); } }</style>
         </div>`;
     document.body.insertAdjacentHTML('beforeend', loadingHtml);
@@ -3055,20 +3680,18 @@ function showStoryModal(charName, storyText, themeName, themeId = 'random') {
         }, 200);
         console.log(`[Another-Universe] 📸 Download triggered for ${a.download}`);
       }
-      toastr.success('บันทึกภาพเสร็จสิ้น!', '🌌 Another Universe'); // Image saved successfully!
+      toastr.success(t('image.saved'), t('common.another_universe'));
     } catch (error) {
       console.error('Failed to generate image:', error);
-      let errorMsg = 'ไม่สามารถสร้างรูปภาพได้ ลองอีกครั้ง'; // Cannot generate image, try again
-
+      let errorMsg = t('image.cannot_generate');
       if (error.message && error.message.includes('canvas')) {
-        errorMsg = 'ไม่สามารถสร้าง canvas ได้ รูปภาพอาจใหญ่เกินไป'; // Cannot create canvas, image may be too large
+        errorMsg = t('image.canvas_too_large');
       } else if (error.message && error.message.includes('blob')) {
-        errorMsg = 'ไม่สามารถแปลงรูปภาพได้ กรุณาลองใหม่'; // Cannot convert image, please try again
+        errorMsg = t('image.blob_failed');
       } else if (error.message && error.message.includes('font')) {
-        errorMsg = 'ฟอนต์โหลดไม่สำเร็จ กรุณารอสักครู่แล้วลองใหม่'; // Font loading failed, please wait and try again
+        errorMsg = t('image.font_failed');
       }
-
-      toastr.error(errorMsg, '🌌 Another Universe');
+      toastr.error(errorMsg, t('common.another_universe'));
     } finally {
       $('#au-export-container').remove();
       $('#au-render-loading').remove();
@@ -3109,8 +3732,8 @@ function showLoadingState(show) {
       <div id="au-generation-loading" style="${getOverlayStyle()}; z-index: 999999; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);">
         <div style="text-align: center;">
           <div style="font-size: 4em; animation: au-spin 2s linear infinite; margin-bottom: 24px;">🌀</div>
-          <div style="font-size: 1.3em; font-weight: bold; color: #d0c8e8; margin-bottom: 12px; letter-spacing: 1px;">กำลังเปิดประตูจักรวาล...</div> <!-- Opening universe portal... -->
-          <div style="font-size: 0.9em; color: #b8b0d0; margin-bottom: 32px;">กำลังสร้างเรื่องราวในโลกคู่ขนาน</div> <!-- Creating story in parallel world -->
+          <div style="font-size: 1.3em; font-weight: bold; color: #d0c8e8; margin-bottom: 12px; letter-spacing: 1px;">${t('loading.opening_portal')}</div>
+          <div style="font-size: 0.9em; color: #b8b0d0; margin-bottom: 32px;">${t('loading.creating_story')}</div>
           <button id="au-cancel-generation" style="padding: 12px 32px; background: rgba(255,100,100,0.2); border: 1px solid rgba(255,100,100,0.5); border-radius: 20px; color: #ffaaaa; font-size: 1em; cursor: pointer; transition: all 0.3s;">
             ✕ ยกเลิก <!-- Cancel -->
           </button>
@@ -3129,7 +3752,7 @@ function showLoadingState(show) {
       }
       $('#au-generation-loading').remove();
       showLoadingState(false);
-      toastr.info('ยกเลิกการสร้างเรื่องราวแล้ว', '🌌 Another Universe'); // Story generation cancelled
+      toastr.info(t('common.cancelled'), t('common.another_universe'));
     });
   } else {
     // Chat button normal state
@@ -3146,19 +3769,19 @@ async function onOpenUniverseClick() {
   const isEnabled = extension_settings[extensionName].enabled;
 
   if (!isEnabled) {
-    toastr.warning('กรุณาเปิดใช้งาน Extension ก่อนนะ!', '🌌 Another Universe'); // Please enable the extension first!
+    toastr.warning(t('common.please_enable'), t('common.another_universe'));
     return;
   }
 
   // Prevent multiple simultaneous generations
   if (generationAbortController) {
-    toastr.warning('กำลังสร้างเรื่องราวอยู่ กรุณารอสักครู่', '🌌 Another Universe'); // Story generation in progress, please wait
+    toastr.warning(t('common.generating_in_progress'), t('common.another_universe'));
     return;
   }
 
   const context = getContext();
   if (!context.characterId && context.characterId !== 0) {
-    toastr.warning('กรุณาเลือกตัวละครก่อนนะ!', '🌌 Another Universe'); // Please select a character first!
+    toastr.warning(t('common.please_select_character'), t('common.another_universe'));
     return;
   }
 
@@ -3166,28 +3789,28 @@ async function onOpenUniverseClick() {
   const userName = context.name1 || 'User';
   const charDescription = context.characters?.[context.characterId]?.description || '';
   const selectedTheme = extension_settings[extensionName].selectedTheme || 'random';
-  const themeLabel = universeThemes[selectedTheme]?.label || '🎲 สุ่ม';
+  const themeLabel = getThemeLabel(selectedTheme);
   const selectedEncounter = extension_settings[extensionName].selectedEncounter || 'random';
-  const encounterLabel = selectedEncounter === 'none' ? '' : encounterTypes[selectedEncounter]?.label || '🎲 สุ่ม';
+  const encounterLabel = selectedEncounter === 'none' ? '' : getEncounterLabel(selectedEncounter);
   const selectedMood = extension_settings[extensionName].selectedMood || 'random';
-  const moodLabel = selectedMood === 'none' ? '' : moodTypes[selectedMood]?.label || '🎲 สุ่ม';
+  const moodLabel = selectedMood === 'none' ? '' : getMoodLabel(selectedMood);
 
   // Validate that any 'custom' selection has actual text in its textarea
   const customEmpty = [];
   if (selectedTheme === 'custom' && !sanitizeCustomTheme(extension_settings[extensionName].customTheme || '')) {
-    customEmpty.push('โลก/ธีม');
+    customEmpty.push(t('quick.custom_empty_label_theme'));
   }
   if (
     selectedEncounter === 'custom' &&
     !sanitizeCustomEncounter(extension_settings[extensionName].customEncounter || '')
   ) {
-    customEmpty.push('การพบเจอ');
+    customEmpty.push(t('quick.custom_empty_label_encounter'));
   }
   if (selectedMood === 'custom' && !sanitizeCustomMood(extension_settings[extensionName].customMood || '')) {
-    customEmpty.push('อารมณ์/โทน');
+    customEmpty.push(t('quick.custom_empty_label_mood'));
   }
   if (customEmpty.length > 0) {
-    toastr.warning(`กรุณากรอกคำบรรยาย: ${customEmpty.join(', ')} ก่อน หรือเปลี่ยนเป็นตัวเลือกอื่น`, '🎨 Custom'); // Please fill in the description for X, or change to another option
+    toastr.warning(t('quick.custom_empty_warn', { fields: customEmpty.join(', ') }), t('quick.custom_empty_title'));
     return;
   }
 
@@ -3259,24 +3882,27 @@ async function onOpenUniverseClick() {
 
       saveToGallery(charName, result, badge, selectedTheme, extra);
       showStoryModal(charName, result, badge, selectedTheme);
-      toastr.success('เรื่องราวจักรวาลคู่ขนานพร้อมแล้ว!', '🌌 Another Universe'); // Parallel universe story ready!
+      toastr.success(t('common.universe_ready'), t('common.another_universe'));
       console.log(`[${extensionName}] ✅ Universe generated successfully`);
     } else {
-      toastr.error('ไม่สามารถสร้างเรื่องราวได้ ลองใหม่อีกครั้ง', '🌌 Another Universe'); // Cannot generate story, try again
+      toastr.error(t('common.cannot_generate'), t('common.another_universe'));
       console.log(`[${extensionName}] ❌ Empty result from LLM`);
     }
   } catch (error) {
     if (error.name === 'AbortError') {
-      toastr.info('ยกเลิกการสร้างเรื่องราวแล้ว', '🌌 Another Universe'); // Story generation cancelled
+      toastr.info(t('common.cancelled'), t('common.another_universe'));
       console.log(`[${extensionName}] ⚠️ Generation cancelled by user`);
     } else if (error.message && error.message.includes('network')) {
-      toastr.error('เกิดปัญหาการเชื่อมต่อ กรุณาตรวจสอบ API และลองใหม่อีกครั้ง', '🌌 Another Universe'); // Connection problem, please check API and try again
+      toastr.error(t('common.network_problem'), t('common.another_universe'));
       console.error(`[${extensionName}] ❌ Network error:`, error);
     } else if (error.message && error.message.includes('rate limit')) {
-      toastr.error('API rate limit exceeded กรุณารอสักครู่แล้วลองใหม่', '🌌 Another Universe'); // API rate limit exceeded, please wait and try again
+      toastr.error(t('common.rate_limit'), t('common.another_universe'));
       console.error(`[${extensionName}] ❌ Rate limit error:`, error);
     } else {
-      toastr.error(`เกิดข้อผิดพลาด: ${error.message || 'Unknown error'}`, '🌌 Another Universe');
+      toastr.error(
+        `${t('common.error_prefix')}: ${error.message || t('common.unknown_error')}`,
+        t('common.another_universe'),
+      );
       console.error(`[${extensionName}] ❌ Generation failed:`, error);
     }
   } finally {
@@ -3294,43 +3920,34 @@ function showWelcomeModal() {
         <div class="au-universal-popup">
             <div class="au-universal-popup-header">
                 <div class="au-card-front-header-text">
-                    <span class="au-modal-title">🌌 Another Universe v1.1</span>
-                    <span class="au-modal-theme-badge">ถ้าเราได้พบกัน...ในอีกจักรวาลหนึ่ง</span> <!-- If we met...in another universe -->
+                    <span class="au-modal-title">${t('welcome.title')}</span>
+                    <span class="au-modal-theme-badge">${t('welcome.subtitle')}</span>
                 </div>
                 <span id="au-welcome-close" class="au-modal-close">✕</span>
             </div>
             <div class="au-universal-popup-body" style="padding: 24px; text-align: left;">
-                <h3 style="margin-top:0; margin-bottom:16px; color:#edf2f7;">
-                    ขอบคุณที่ติดตั้ง <strong>Another Universe</strong> <!-- Thank you for installing Another Universe -->
-                </h3>
+                <h3 style="margin-top:0; margin-bottom:16px; color:#edf2f7;">${t('welcome.thanks')}</h3>
                 <p style="font-size:0.95em; line-height:1.6; margin-bottom:12px; color:#e8edf2;">
-                    โปรเจกต์นี้เกิดขึ้นจากคำถามง่ายๆ คำถามหนึ่ง<br> <!-- This project was born from a simple question -->
-                    <em>"ถ้าตัวละครสองคนได้พบกันในโลกที่แตกต่างออกไป เรื่องราวของพวกเขาจะยังเหมือนเดิมไหม?"</em> <!-- "If two characters met in a different world, would their story still be the same?" -->
+                    ${t('welcome.intro_p1')}<br>
+                    ${t('welcome.intro_q')}
                 </p>
 
-                <p style="font-size:0.95em; line-height:1.6; margin-bottom:12px; color:#e8edf2;">
-                    บางจักรวาล พวกเขาอาจเป็นคนแปลกหน้าที่เดินสวนกันใต้สายฝน บางจักรวาล อาจเป็นศัตรู คู่หู หรือคนรักที่ถูกโชคชะตาพลัดพราก แต่ไม่ว่าโลกจะเปลี่ยนไปมากแค่ไหน ความรู้สึกบางอย่างอาจยังคงเดิมเสมอ <!-- In some universes, they might be strangers passing in the rain. In others, enemies, partners, or lovers torn apart by fate. But no matter how much the world changes, some feelings may remain the same -->
-                </p>
+                <p style="font-size:0.95em; line-height:1.6; margin-bottom:12px; color:#e8edf2;">${t('welcome.intro_p2')}</p>
 
-                <p style="font-size:0.95em; line-height:1.6; margin-bottom:16px; color:#e8edf2;">
-                    Another Universe จะนำบทสนทนา บุคลิก และความสัมพันธ์ของตัวละคร มาตีความใหม่ในโลกคู่ขนาน ผ่านธีม อารมณ์ และรูปแบบการพบกันที่แตกต่างกันออกไป <!-- Another Universe reinterprets character dialogues, personalities, and relationships in parallel worlds through different themes, moods, and encounter types -->
-                </p>
+                <p style="font-size:0.95em; line-height:1.6; margin-bottom:16px; color:#e8edf2;">${t('welcome.intro_p3')}</p>
 
                 <hr style="border-color: rgba(130, 160, 220, 0.15); margin: 16px 0;">
 
+                <p style="font-size: 0.85em; color:#d0d8e0; margin:0;">${t('welcome.contact')}</p>
 
-                <p style="font-size: 0.85em; color:#d0d8e0; margin:0;">
-                    หากพบปัญหาในการเดินทางข้ามโลก โปรดแจ้งที่ Discord: <strong>majesty.pop (POPKO)</strong> <!-- If you encounter problems traveling across worlds, please report to Discord -->
-                </p>
-                
                 <div style="margin-top: 28px; font-size: 0.65em; color:#b8c0d0; text-align:center; padding-top: 14px; border-top: 1px dashed rgba(130, 160, 220, 0.2);">
-                    ⚠️ Custom License — ดูไฟล์ LICENSE สำหรับรายละเอียดเต็ม<br> <!-- See LICENSE file for full details -->
-                    อนุญาตให้ดัดแปลงและพัฒนาต่อเพื่อแจกจ่ายคืนคอมมูนิตี้เท่านั้น <strong>ห้ามนำไปปิดซอร์สโค้ด หรือดัดแปลงเพื่อการค้า/ค้ากำไรโดยเด็ดขาด</strong><br> <!-- Modification and development for community distribution only. Strictly prohibited to close-source or commercialize -->
-                    <span style="color: #ff8888;">หากตรวจพบการละเมิด จะดำเนินการแจ้งกับทุกคอมมูนิตี้ที่เกี่ยวข้องทันที</span> <!-- If violations are detected, all relevant communities will be notified immediately -->
+                    ${t('welcome.license_warning')}<br>
+                    ${t('welcome.license_terms')}<br>
+                    <span style="color: #ff8888;">${t('welcome.license_violation')}</span>
                 </div>
             </div>
             <div class="au-universal-popup-footer" style="justify-content:center;">
-                <input id="au-welcome-close-btn" class="menu_button" type="submit" value="✨ เริ่มเดินทางข้ามจักรวาล" style="width:100%;" /> <!-- Start journey across universes -->
+                <input id="au-welcome-close-btn" class="menu_button" type="submit" value="${t('welcome.start_btn')}" style="width:100%;" />
             </div>
         </div>
     </div>`;
@@ -3364,6 +3981,7 @@ async function initExtension() {
 
     // Bind events
     $('#another_universe_enabled').on('input', onEnabledChange);
+    $('#another_universe_language').on('change', onLanguageChange);
     $('#another_universe_gallery_btn').on('click', showGalleryModal);
 
     // Create the floating chat button
