@@ -71,25 +71,6 @@
 
 ---
 
-## 🎴 รายละเอียด Character Card Export
-
-| รูปแบบ  | นามสกุล  | ใช้กับ                                     | ข้อดี                                     | ข้อจำกัด                                                     |
-| ------ | ------- | ---------------------------------------- | --------------------------------------- | --------------------------------------------------------- |
-| 🎴 PNG  | `.png`  | SillyTavern (drag-drop), TavernAI        | มีรูป avatar + import ได้ในคลิกเดียว         | ต้องเข้าถึงรูป avatar ของ char เดิมได้ (ถ้าไม่ได้จะใช้ placeholder) |
-| 🗂️ JSON | `.json` | SillyTavern, TavernAI, RisuAI, JanitorAI | portable ทุก tool, ไฟล์เล็ก, อ่าน/แก้ด้วยมือได้ | ไม่มีรูป — ต้องตั้งรูปใหม่หลัง import                              |
-
-**Field mapping:**
-
-- `name` → `${charName} (AU: ${themeLabel})`
-- `first_mes` → เนื้อเรื่องที่ generate (ตัด `<think>` / `<hook>` ออก, แทนชื่อด้วย `{{user}}` / `{{char}}` อัตโนมัติ)
-- `scenario` → รวม Setting + Encounter + Mood (รวมถึง custom)
-- `description` / `personality` / `mes_example` → ดึงจาก char ต้นฉบับ
-- `tags` → `["another-universe", "au-theme:X", "au-encounter:Y", "au-mood:Z", ...originalTags]`
-- `creator_notes` → ระบุที่มา + creator เดิม + timestamp
-- AU metadata เพิ่มเติมเก็บใน `data.extensions.another_universe`
-
----
-
 ## 🔧 ติดต่อสอบถาม
 
 หากพบปัญหาในการใช้งาน หรืออยากเสนอธีมโลกใหม่ๆ สามารถติดต่อได้ที่:
