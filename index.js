@@ -1254,29 +1254,6 @@ async function loadSettings() {
     extension_settings[extensionName].customMood = '';
   }
   $('#another_universe_enabled').prop('checked', extension_settings[extensionName].enabled);
-  $('#another_universe_theme').val(extension_settings[extensionName].selectedTheme);
-  $('#another_universe_encounter').val(extension_settings[extensionName].selectedEncounter);
-  $('#another_universe_mood').val(extension_settings[extensionName].selectedMood);
-  $('#another_universe_custom_theme').val(extension_settings[extensionName].customTheme || '');
-  $('#another_universe_custom_encounter').val(extension_settings[extensionName].customEncounter || '');
-  $('#another_universe_custom_mood').val(extension_settings[extensionName].customMood || '');
-  toggleCustomThemeVisibility(extension_settings[extensionName].selectedTheme);
-  toggleCustomEncounterVisibility(extension_settings[extensionName].selectedEncounter);
-  toggleCustomMoodVisibility(extension_settings[extensionName].selectedMood);
-}
-
-// Show/hide custom textarea wraps based on selected option
-function toggleCustomThemeVisibility(themeValue) {
-  if (themeValue === 'custom') $('#another_universe_custom_theme_wrap').show();
-  else $('#another_universe_custom_theme_wrap').hide();
-}
-function toggleCustomEncounterVisibility(value) {
-  if (value === 'custom') $('#another_universe_custom_encounter_wrap').show();
-  else $('#another_universe_custom_encounter_wrap').hide();
-}
-function toggleCustomMoodVisibility(value) {
-  if (value === 'custom') $('#another_universe_custom_mood_wrap').show();
-  else $('#another_universe_custom_mood_wrap').hide();
 }
 
 // Generic sanitizer for any user-provided custom field
@@ -1461,8 +1438,6 @@ function showQuickSettings() {
     const v = $(this).val();
     extension_settings[extensionName].selectedTheme = v;
     saveSettingsDebounced();
-    $('#another_universe_theme').val(v);
-    toggleCustomThemeVisibility(v);
     if (v === 'custom') $('#au-quick-custom-wrap').css('display', 'flex');
     else $('#au-quick-custom-wrap').hide();
   });
@@ -1471,14 +1446,11 @@ function showQuickSettings() {
     extension_settings[extensionName].customTheme = v;
     saveSettingsDebounced();
     $('#au-quick-custom-count').text(`${v.length}/${CUSTOM_THEME_MAX_LENGTH}`);
-    $('#another_universe_custom_theme').val(v);
   });
   $('#au-quick-encounter').on('change', function () {
     const v = $(this).val();
     extension_settings[extensionName].selectedEncounter = v;
     saveSettingsDebounced();
-    $('#another_universe_encounter').val(v);
-    toggleCustomEncounterVisibility(v);
     if (v === 'custom') $('#au-quick-custom-encounter-wrap').css('display', 'flex');
     else $('#au-quick-custom-encounter-wrap').hide();
   });
@@ -1487,14 +1459,11 @@ function showQuickSettings() {
     extension_settings[extensionName].customEncounter = v;
     saveSettingsDebounced();
     $('#au-quick-custom-encounter-count').text(`${v.length}/${CUSTOM_ENCOUNTER_MAX_LENGTH}`);
-    $('#another_universe_custom_encounter').val(v);
   });
   $('#au-quick-mood').on('change', function () {
     const v = $(this).val();
     extension_settings[extensionName].selectedMood = v;
     saveSettingsDebounced();
-    $('#another_universe_mood').val(v);
-    toggleCustomMoodVisibility(v);
     if (v === 'custom') $('#au-quick-custom-mood-wrap').css('display', 'flex');
     else $('#au-quick-custom-mood-wrap').hide();
   });
@@ -1503,7 +1472,6 @@ function showQuickSettings() {
     extension_settings[extensionName].customMood = v;
     saveSettingsDebounced();
     $('#au-quick-custom-mood-count').text(`${v.length}/${CUSTOM_MOOD_MAX_LENGTH}`);
-    $('#another_universe_custom_mood').val(v);
   });
 
   $('#au-quick-generate').on('click', () => {
@@ -1534,54 +1502,6 @@ function updateChatButtonVisibility() {
   } else {
     $('#au-chat-btn').css('display', 'none');
   }
-}
-
-// Handle theme change
-function onThemeChange(event) {
-  const value = $(event.target).val();
-  extension_settings[extensionName].selectedTheme = value;
-  saveSettingsDebounced();
-  toggleCustomThemeVisibility(value);
-  console.log(`[${extensionName}] Theme selected:`, value, universeThemes[value]?.label);
-}
-
-// Handle custom theme text change
-function onCustomThemeChange(event) {
-  const value = sanitizeCustomTheme($(event.target).val());
-  extension_settings[extensionName].customTheme = value;
-  saveSettingsDebounced();
-}
-
-// Handle encounter change
-function onEncounterChange(event) {
-  const value = $(event.target).val();
-  extension_settings[extensionName].selectedEncounter = value;
-  saveSettingsDebounced();
-  toggleCustomEncounterVisibility(value);
-  console.log(`[${extensionName}] Encounter selected:`, value, encounterTypes[value]?.label);
-}
-
-// Handle custom encounter text change
-function onCustomEncounterChange(event) {
-  const value = sanitizeCustomEncounter($(event.target).val());
-  extension_settings[extensionName].customEncounter = value;
-  saveSettingsDebounced();
-}
-
-// Handle mood change
-function onMoodChange(event) {
-  const value = $(event.target).val();
-  extension_settings[extensionName].selectedMood = value;
-  saveSettingsDebounced();
-  toggleCustomMoodVisibility(value);
-  console.log(`[${extensionName}] Mood selected:`, value, moodTypes[value]?.label);
-}
-
-// Handle custom mood text change
-function onCustomMoodChange(event) {
-  const value = sanitizeCustomMood($(event.target).val());
-  extension_settings[extensionName].customMood = value;
-  saveSettingsDebounced();
 }
 
 // Extract a brief relationship dynamic summary from recent chat (NOT raw messages)
@@ -2593,8 +2513,8 @@ function showStoryModal(charName, storyText, themeName, themeId = 'random') {
                 <button id="au-modal-edit" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;">✏️ Edit</button>
                 <button id="au-modal-save-long" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;">📖 Long</button>
                 <button id="au-modal-save-short" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;">✨ Short</button>
-                <button id="au-modal-export-card" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(180,120,255,0.18); color:#e6d6ff; border:1px solid rgba(180,120,255,0.45); font-size:0.9em; cursor:pointer;" title="Export as SillyTavern character card (.png)">🎴 PNG</button>
-                <button id="au-modal-export-json" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(120,180,255,0.18); color:#d6e6ff; border:1px solid rgba(120,180,255,0.45); font-size:0.9em; cursor:pointer;" title="Export as Character Card V2 JSON (.json)">🗂️ JSON</button>
+                <button id="au-modal-export-card" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;" title="Export as SillyTavern character card (.png)">🎴 PNG</button>
+                <button id="au-modal-export-json" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;" title="Export as Character Card V2 JSON (.json)">🗂️ JSON</button>
                 <button id="au-modal-regenerate" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;">🔄 New</button>
             </div>
             <div id="au-modal-edit-controls" class="au-universal-popup-footer" style="display:none; flex-direction:row; justify-content:center; gap:8px; padding:12px; border-top:1px solid rgba(130, 160, 220, 0.2);">
@@ -2614,8 +2534,8 @@ function showStoryModal(charName, storyText, themeName, themeId = 'random') {
                 <input id="au-modal-edit" class="menu_button" type="submit" value="✏️ Edit Story" title="Edit story text" />
                 <input id="au-modal-save-long" class="menu_button" type="submit" value="📸 Long Card" title="Save full story" />
                 <input id="au-modal-save-short" class="menu_button" type="submit" value="📸 Short Card" title="Save quote & snippet" />
-                <input id="au-modal-export-card" class="menu_button" type="submit" value="🎴 Export PNG Card" title="Export as SillyTavern character card (.png)" style="background:rgba(180,120,255,0.18); border-color:rgba(180,120,255,0.5); color:#e6d6ff;" />
-                <input id="au-modal-export-json" class="menu_button" type="submit" value="🗂️ Export JSON" title="Export as Character Card V2 JSON (.json) — portable" style="background:rgba(120,180,255,0.18); border-color:rgba(120,180,255,0.5); color:#d6e6ff;" />
+                <input id="au-modal-export-card" class="menu_button" type="submit" value="🎴 Export PNG Card" title="Export as SillyTavern character card (.png)" />
+                <input id="au-modal-export-json" class="menu_button" type="submit" value="🗂️ Export JSON" title="Export as Character Card V2 JSON (.json) — portable" />
                 <input id="au-modal-regenerate" class="menu_button" type="submit" value="🔄 Generate" />
                 <input id="au-modal-close-btn" class="menu_button" type="submit" value="Close" />
             </div>
@@ -3179,7 +3099,6 @@ let generationAbortController = null;
 
 function showLoadingState(show) {
   if (show) {
-    $('#another_universe_open_btn').prop('disabled', true).val('🌀 กำลังเปิดประตูจักรวาล...'); // Opening universe portal...
     // Chat button loading state
     $('#au-chat-btn').addClass('au-chat-btn-busy');
     $('#au-chat-btn .au-chat-btn-icon').hide();
@@ -3213,7 +3132,6 @@ function showLoadingState(show) {
       toastr.info('ยกเลิกการสร้างเรื่องราวแล้ว', '🌌 Another Universe'); // Story generation cancelled
     });
   } else {
-    $('#another_universe_open_btn').prop('disabled', false).val('✨ Open Another Universe');
     // Chat button normal state
     $('#au-chat-btn').removeClass('au-chat-btn-busy');
     $('#au-chat-btn .au-chat-btn-icon').show();
@@ -3446,13 +3364,6 @@ async function initExtension() {
 
     // Bind events
     $('#another_universe_enabled').on('input', onEnabledChange);
-    $('#another_universe_theme').on('change', onThemeChange);
-    $('#another_universe_encounter').on('change', onEncounterChange);
-    $('#another_universe_mood').on('change', onMoodChange);
-    $('#another_universe_custom_theme').on('input', onCustomThemeChange);
-    $('#another_universe_custom_encounter').on('input', onCustomEncounterChange);
-    $('#another_universe_custom_mood').on('input', onCustomMoodChange);
-    $('#another_universe_open_btn').on('click', onOpenUniverseClick);
     $('#another_universe_gallery_btn').on('click', showGalleryModal);
 
     // Create the floating chat button
