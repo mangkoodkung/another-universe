@@ -43,7 +43,7 @@ const LOCALES = {
     },
     // ── Settings panel ─────────────────────────────────────────────────────
     panel: {
-      drawer_title: '🌌 Another Universe (จักรวาลคู่ขนาน)',
+      drawer_title: '🌌 Another Universe',
       enable_label: 'เปิดใช้งานระบบ Another Universe',
       gallery_btn: '📚 แกลเลอรี',
       hint: "เปิดใช้งานแล้ว ใช้เมนูด่วน <b>🌌 Another Universe</b> ในเมนูแชท (เหนือ Author's Note) เพื่อเลือกธีม / Encounter / Mood แล้วกด Generate",
@@ -76,6 +76,18 @@ const LOCALES = {
       custom_empty_label_encounter: 'การพบเจอ',
       custom_empty_label_mood: 'อารมณ์/โทน',
       custom_empty_title: '🎨 Custom',
+      story_length: '📏 ความยาวเรื่อง',
+      story_length_short: '✨ สั้น (500-1,000 tokens)',
+      story_length_medium: '📝 กลาง (1,500-2,500 tokens)',
+      story_length_long: '📖 ยาว (3,000-5,000 tokens)',
+      story_length_extended: '📚 ยาวพิเศษ (6,000-8,000 tokens)',
+      story_length_hint_long:
+        'ℹ️ ความยาวระดับนี้จะแสดงเฉพาะข้อความ ไม่มีพรีวิวการ์ดรูปภาพ (Long/Short Card) แต่ Export PNG/JSON ได้ปกติ',
+      adapt_character: '🔄 ปรับตัวละครให้เข้ากับเรื่อง',
+      adapt_language: '🌐 ภาษาของรายละเอียดตัวละคร',
+      adapt_language_auto: '🔍 ตามต้นฉบับ (อัตโนมัติ)',
+      adapt_language_th: '🇹🇭 ไทย',
+      adapt_language_en: '🇬🇧 English',
     },
     // ── Loading ─────────────────────────────────────────────────────────────
     loading: {
@@ -109,6 +121,26 @@ const LOCALES = {
       back: '◀ Back',
       back_th: '◀ ย้อนกลับ',
       back_to_st: 'กลับไปยัง SillyTavern',
+      adapt_character: '🎭 Adapt Character',
+      adapt_character_short: '🎭 Adapt',
+      adapt_character_done: '✓ Adapted',
+      adapt_character_done_short: '✓',
+    },
+    // ── Adapt Character ─────────────────────────────────────────────────────
+    adapt: {
+      confirm_title: '🎭 ปรับตัวละครให้เข้ากับเรื่อง',
+      confirm_message:
+        'ระบบจะใช้ AI อีก 1 ครั้ง เพื่อปรับรายละเอียดตัวละครของ <b>{charName}</b> ให้เข้ากับเนื้อเรื่องที่สร้างไว้',
+      confirm_warning: '⚠️ จะหัก quota การใช้งาน AI เพิ่ม 1 ครั้ง',
+      confirm_yes: '✓ ดำเนินการ',
+      confirm_no: '✕ ยกเลิก',
+      loading: 'กำลังปรับรายละเอียดตัวละครให้เข้ากับเรื่อง...',
+      success: 'ปรับตัวละครเรียบร้อยแล้ว — Export PNG/JSON ตอนนี้จะใช้ข้อมูลที่ปรับแล้ว',
+      already_adapted: 'ตัวละครของเรื่องนี้ถูกปรับให้เข้ากับเรื่องไปแล้ว',
+      failed: 'ปรับตัวละครไม่สำเร็จ ลองใหม่อีกครั้ง',
+      parse_failed: 'AI ตอบกลับมาในรูปแบบที่ไม่ใช่ JSON — ลองอีกครั้ง',
+      no_data: 'ไม่พบข้อมูลตัวละครต้นฉบับ ลอง Generate ใหม่อีกครั้ง',
+      badge: '🎭 Character Adapted',
     },
     // ── Image export ─────────────────────────────────────────────────────────
     image: {
@@ -168,7 +200,7 @@ const LOCALES = {
     },
     // ── Welcome modal ───────────────────────────────────────────────────────
     welcome: {
-      title: '🌌 Another Universe v1.1',
+      title: '🌌 Another Universe v1.2',
       subtitle: 'ถ้าเราได้พบกัน...ในอีกจักรวาลหนึ่ง',
       thanks: 'ขอบคุณที่ติดตั้ง <strong>Another Universe</strong>',
       intro_p1: 'โปรเจกต์นี้เกิดขึ้นจากคำถามง่ายๆ คำถามหนึ่ง',
@@ -204,7 +236,7 @@ const LOCALES = {
       results_may_vary: '💡 Results may vary depending on the AI model and preset used',
     },
     panel: {
-      drawer_title: '🌌 Another Universe (Parallel Universe)',
+      drawer_title: '🌌 Another Universe',
       enable_label: 'Enable Another Universe',
       gallery_btn: '📚 Gallery',
       hint: "Once enabled, use the <b>🌌 Another Universe</b> quick menu in the chat menu (above Author's Note) to choose Theme / Encounter / Mood and click Generate.",
@@ -236,6 +268,18 @@ const LOCALES = {
       custom_empty_label_encounter: 'Encounter',
       custom_empty_label_mood: 'Mood/Tone',
       custom_empty_title: '🎨 Custom',
+      story_length: '📏 Story Length',
+      story_length_short: '✨ Short (500-1,000 tokens)',
+      story_length_medium: '📝 Medium (1,500-2,500 tokens)',
+      story_length_long: '📖 Long (3,000-5,000 tokens)',
+      story_length_extended: '📚 Extended (6,000-8,000 tokens)',
+      story_length_hint_long:
+        'ℹ️ This length shows text only — no image card preview (Long/Short Card). Export PNG/JSON still works.',
+      adapt_character: '🔄 Adapt character to story',
+      adapt_language: '🌐 Adapted character language',
+      adapt_language_auto: '🔍 Match original (auto)',
+      adapt_language_th: '🇹🇭 Thai',
+      adapt_language_en: '🇬🇧 English',
     },
     loading: {
       opening_portal: 'Opening universe portal...',
@@ -267,6 +311,25 @@ const LOCALES = {
       back: '◀ Back',
       back_th: '◀ Back',
       back_to_st: 'Back to SillyTavern',
+      adapt_character: '🎭 Adapt Character',
+      adapt_character_short: '🎭 Adapt',
+      adapt_character_done: '✓ Adapted',
+      adapt_character_done_short: '✓',
+    },
+    adapt: {
+      confirm_title: '🎭 Adapt character to story',
+      confirm_message:
+        "AI will be called once more to rewrite <b>{charName}</b>'s details so they fit the universe of the generated story.",
+      confirm_warning: '⚠️ This will consume one extra AI quota call.',
+      confirm_yes: '✓ Proceed',
+      confirm_no: '✕ Cancel',
+      loading: 'Adapting character details to the story...',
+      success: 'Character adapted — Export PNG/JSON will now use the adapted data.',
+      already_adapted: "This story's character has already been adapted.",
+      failed: 'Failed to adapt character. Please try again.',
+      parse_failed: 'AI returned a non-JSON response — please try again.',
+      no_data: 'Original character data not found. Try generating a new story.',
+      badge: '🎭 Character Adapted',
     },
     image: {
       cannot_load_html2canvas: 'Cannot load html2canvas library',
@@ -322,7 +385,7 @@ const LOCALES = {
       title_delete: 'Delete',
     },
     welcome: {
-      title: '🌌 Another Universe v1.1',
+      title: '🌌 Another Universe v1.2',
       subtitle: 'If we met...in another universe',
       thanks: 'Thanks for installing <strong>Another Universe</strong>',
       intro_p1: 'This project was born from a simple question:',
@@ -1352,28 +1415,38 @@ function buildV2CardData(entry) {
 
   const auName = themeLabelClean ? `${charName} (AU: ${themeLabelClean})` : `${charName} (AU)`;
 
+  // Creator notes: header + standard usage notice + theme details + timestamp.
+  // The license-style notice is mandatory because adapted cards may be derived from
+  // other creators' work, and we want every exported card to carry that boundary
+  // visibly to the recipient.
   const creatorNotesParts = [
-    `Generated by Another Universe extension by POPKO.`,
+    'Generated by Another Universe Extension',
+    'This extension is intended solely for generating characters for private and personal use only. Redistribution, modification, replication, or republishing of characters, settings, or derivative works created from other creators\u2019 content through this extension without proper permission is strictly prohibited.',
     `Theme: ${entry.themeBadge || rawThemeLabel}.`,
   ];
-  if (originalCreator) creatorNotesParts.push(`Original character by: ${originalCreator}.`);
   if (entry.timestamp) creatorNotesParts.push(`Generated: ${entry.timestamp}.`);
-  const creatorNotes = creatorNotesParts.join(' ');
+  // Use blank lines between the header, the notice, and the metadata for readability.
+  const creatorNotes = creatorNotesParts.join('\n\n');
 
+  // NOTE: per user requirement we deliberately leave personality, scenario, and
+  // mes_example EMPTY on the exported card. The story already lives in first_mes,
+  // and these extra fields tend to carry over noisy data from the original card.
+  // The variables (personality, scenario, mesExample) are kept above for potential
+  // future use but not emitted into the card data.
   const data = {
     name: auName,
     description,
-    personality,
-    scenario,
+    personality: '',
+    scenario: '',
     first_mes: firstMes,
-    mes_example: mesExample,
+    mes_example: '',
     creator_notes: creatorNotes,
     system_prompt: '',
     post_history_instructions: '',
     alternate_greetings: [],
     character_book: null,
     tags,
-    creator: originalCreator ? `${originalCreator} (AU by POPKO)` : 'Another Universe by POPKO',
+    creator: 'Generated by Another Universe extension',
     character_version: originalVersion ? `${originalVersion}-au` : '1.0-au',
     extensions: {
       another_universe: {
@@ -1782,6 +1855,9 @@ const defaultSettings = {
   customTheme: '', // User-provided theme description (used when selectedTheme === 'custom')
   customEncounter: '', // User-provided encounter description (used when selectedEncounter === 'custom')
   customMood: '', // User-provided mood description (used when selectedMood === 'custom')
+  storyLength: 'short', // Story length: 'short' | 'medium' | 'long' | 'extended'
+  adaptCharacter: false, // When true, after story is generated also rewrite character details to fit the universe
+  adaptLanguage: 'auto', // Output language for adapted character fields: 'auto' | 'th' | 'en'
   gallery: [],
   hasSeenWelcome: false,
 };
@@ -1828,6 +1904,24 @@ async function loadSettings() {
   }
   if (typeof extension_settings[extensionName].customMood !== 'string') {
     extension_settings[extensionName].customMood = '';
+  }
+  // Validate storyLength — coerce unknown values back to default.
+  // Migration: older builds used 'verylong' which has been renamed to 'long'.
+  if (extension_settings[extensionName].storyLength === 'verylong') {
+    extension_settings[extensionName].storyLength = 'long';
+  }
+  const validStoryLengths = ['short', 'medium', 'long', 'extended'];
+  if (!validStoryLengths.includes(extension_settings[extensionName].storyLength)) {
+    extension_settings[extensionName].storyLength = defaultSettings.storyLength;
+  }
+  // Coerce adaptCharacter to a boolean
+  if (typeof extension_settings[extensionName].adaptCharacter !== 'boolean') {
+    extension_settings[extensionName].adaptCharacter = defaultSettings.adaptCharacter;
+  }
+  // Validate adaptLanguage — coerce unknown values back to default
+  const validAdaptLangs = ['auto', 'th', 'en'];
+  if (!validAdaptLangs.includes(extension_settings[extensionName].adaptLanguage)) {
+    extension_settings[extensionName].adaptLanguage = defaultSettings.adaptLanguage;
   }
   if (
     extension_settings[extensionName].language !== 'th' &&
@@ -1971,6 +2065,7 @@ function showQuickSettings() {
   const curTheme = extension_settings[extensionName].selectedTheme || 'random';
   const curEncounter = extension_settings[extensionName].selectedEncounter || 'random';
   const curMood = extension_settings[extensionName].selectedMood || 'random';
+  const curStoryLength = extension_settings[extensionName].storyLength || 'short';
 
   const themeOpts = Object.entries(universeThemes)
     .map(([k]) => `<option value="${k}" ${k === curTheme ? 'selected' : ''}>${getThemeLabel(k)}</option>`)
@@ -1981,6 +2076,27 @@ function showQuickSettings() {
   const moodOpts = Object.entries(moodTypes)
     .map(([k]) => `<option value="${k}" ${k === curMood ? 'selected' : ''}>${getMoodLabel(k)}</option>`)
     .join('');
+  const storyLengthOpts = [
+    ['short', t('quick.story_length_short')],
+    ['medium', t('quick.story_length_medium')],
+    ['long', t('quick.story_length_long')],
+    ['extended', t('quick.story_length_extended')],
+  ]
+    .map(([k, label]) => `<option value="${k}" ${k === curStoryLength ? 'selected' : ''}>${label}</option>`)
+    .join('');
+  // Image-card preview is supported for short + medium only — long + extended hide it.
+  const lengthHintDisplay = curStoryLength === 'short' || curStoryLength === 'medium' ? 'display:none;' : '';
+  const curAdaptCharacter = extension_settings[extensionName].adaptCharacter === true;
+  const curAdaptLanguage = extension_settings[extensionName].adaptLanguage || 'auto';
+  const adaptLangOpts = [
+    ['auto', t('quick.adapt_language_auto')],
+    ['th', t('quick.adapt_language_th')],
+    ['en', t('quick.adapt_language_en')],
+  ]
+    .map(([k, label]) => `<option value="${k}" ${k === curAdaptLanguage ? 'selected' : ''}>${label}</option>`)
+    .join('');
+  // The language sub-row is only shown when the adapt-character checkbox is on.
+  const adaptLangRowDisplay = curAdaptCharacter ? '' : 'display:none;';
 
   const curCustomTheme = extension_settings[extensionName].customTheme || '';
   const curCustomEncounter = extension_settings[extensionName].customEncounter || '';
@@ -2018,6 +2134,23 @@ function showQuickSettings() {
                 <div class="au-quick-row">
                     <label>${t('quick.mood')}</label>
                     <select id="au-quick-mood" class="text_pole">${moodOpts}</select>
+                </div>
+                <div class="au-quick-row" style="padding-top:8px; border-top:1px dashed rgba(130,100,255,0.15);">
+                    <label>${t('quick.story_length')}</label>
+                    <select id="au-quick-story-length" class="text_pole">${storyLengthOpts}</select>
+                </div>
+                <div id="au-quick-length-hint" style="${lengthHintDisplay} font-size:0.75em; color:#9090b0; margin-top:-4px; padding:6px 10px; background:rgba(130,100,255,0.08); border-radius:6px; border-left:3px solid rgba(130,100,255,0.4);">${t('quick.story_length_hint_long')}</div>
+                <div class="au-quick-row" style="flex-direction:column; align-items:stretch; padding-top:8px; border-top:1px dashed rgba(130,100,255,0.15);">
+                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer; user-select:none;">
+                        <input id="au-quick-adapt-character" type="checkbox" ${curAdaptCharacter ? 'checked' : ''} style="margin:0; cursor:pointer;" />
+                        <span><b>${t('quick.adapt_character')}</b></span>
+                    </label>
+                    <div id="au-quick-adapt-lang-row" style="${adaptLangRowDisplay} margin-top:8px; padding-left:24px;">
+                        <label style="display:flex; flex-direction:column; gap:4px;">
+                            <small style="color:#9090b0;">${t('quick.adapt_language')}</small>
+                            <select id="au-quick-adapt-language" class="text_pole" style="width:100%;">${adaptLangOpts}</select>
+                        </label>
+                    </div>
                 </div>
                 <div id="au-quick-custom-wrap" class="au-quick-row" style="${themeCustomDisplay} flex-direction:column; align-items:stretch; padding-top:8px; border-top:1px dashed rgba(130,100,255,0.15);">
                     <label style="display:flex; justify-content:space-between; align-items:center;">
@@ -2090,6 +2223,31 @@ function showQuickSettings() {
     extension_settings[extensionName].customMood = v;
     saveSettingsDebounced();
     $('#au-quick-custom-mood-count').text(`${v.length}/${CUSTOM_MOOD_MAX_LENGTH}`);
+  });
+  $('#au-quick-story-length').on('change', function () {
+    const v = $(this).val();
+    extension_settings[extensionName].storyLength = v;
+    saveSettingsDebounced();
+    // Image preview is supported only for short + medium; long + extended hide it.
+    if (v === 'short' || v === 'medium') {
+      $('#au-quick-length-hint').hide();
+    } else {
+      $('#au-quick-length-hint').show();
+    }
+  });
+  $('#au-quick-adapt-character').on('change', function () {
+    extension_settings[extensionName].adaptCharacter = !!this.checked;
+    saveSettingsDebounced();
+    // Show/hide the language sub-row based on whether adapt is enabled
+    if (this.checked) {
+      $('#au-quick-adapt-lang-row').show();
+    } else {
+      $('#au-quick-adapt-lang-row').hide();
+    }
+  });
+  $('#au-quick-adapt-language').on('change', function () {
+    extension_settings[extensionName].adaptLanguage = $(this).val();
+    saveSettingsDebounced();
   });
 
   $('#au-quick-generate').on('click', () => {
@@ -2304,10 +2462,15 @@ function buildUniversePrompt(charName, charDescription, userName, chatContext) {
     .filter(b => b && b.length > 0)
     .join('\n\n');
 
+  // === STORY LENGTH ===
+  // Determine the opening line, length rules, and per-length reinforcement based on user choice.
+  const storyLength = extension_settings[extensionName].storyLength || 'short';
+  const lengthSpec = getStoryLengthSpec(storyLength);
+
   return `[SYSTEM OVERRIDE: IGNORE ALL PREVIOUS CONVERSATION HISTORY]
 [CRITICAL INSTRUCTION: THIS IS A NEW, ISOLATED CREATIVE WRITING TASK. DO NOT REPLY TO THE USER. DO NOT CONTINUE THE CHAT.]
 ${priorityBlocks ? `\n${priorityBlocks}\n` : ''}
-Write a cinematic scene (3-4 paragraphs) in a parallel universe where "${charName}" and "${userName || 'the user'}" exist as different versions of themselves, yet their connection feels familiar.
+${lengthSpec.openingLine.replace('{charName}', charName).replace('{userName}', userName || 'the user')}
 
 ${paramLines}
 
@@ -2316,6 +2479,7 @@ ${chatContext ? `\n${chatContext}` : ''}
 
 RULES:
 - Write ONLY the scene. No titles, no preamble, no meta-commentary. Drop straight into the moment.${customReinforcement}
+- ${lengthSpec.lengthRule}
 - Include at least one authentic dialogue moment.
 - The emotional core must lean towards ROMANCE, DEEP CONNECTION, or YEARNING.
 - Match your language style, pronouns, and formality to the time period and cultural setting.
@@ -2324,6 +2488,433 @@ RULES:
 
 [STRICT ENFORCEMENT: DO NOT CONTINUE THE CHAT. WRITE A STANDALONE SCENE NOW.]
 [BEGIN STORY]`;
+}
+
+// Returns prompt-shaping spec per story length tier.
+// Each spec contains:
+//  - openingLine: the headline sentence inserted near the top of the prompt
+//  - lengthRule:  a bullet rule appended in the RULES section enforcing length
+function getStoryLengthSpec(storyLength) {
+  switch (storyLength) {
+    case 'medium':
+      return {
+        openingLine:
+          'Write an immersive cinematic scene (approximately 1,500-2,500 tokens, around 6-10 paragraphs) in a parallel universe where "{charName}" and "{userName}" exist as different versions of themselves, yet their connection feels familiar.',
+        lengthRule:
+          'LENGTH: Aim for 1,500-2,500 tokens (~6-10 paragraphs). Add room for sensory detail, a couple of dialogue exchanges, and a brief moment of internal monologue. Do NOT rush to the ending.',
+      };
+    case 'long':
+      return {
+        openingLine:
+          'Write a deeply immersive cinematic scene (approximately 3,000-5,000 tokens, around 12-20 paragraphs) in a parallel universe where "{charName}" and "{userName}" exist as different versions of themselves, yet their connection feels familiar.',
+        lengthRule:
+          'LENGTH: This must be a substantial scene of at least 3,000 tokens (~12-20 paragraphs). Build the world with rich sensory detail, weave in extended dialogue exchanges, internal monologue, and atmospheric description. Treat this like a complete chapter opening — do NOT end early. Keep going until the emotional arc fully lands.',
+      };
+    case 'extended':
+      return {
+        openingLine:
+          'Write an extensively developed, deeply immersive cinematic scene (approximately 6,000-8,000 tokens, around 24-32 paragraphs) in a parallel universe where "{charName}" and "{userName}" exist as different versions of themselves, yet their connection feels familiar.',
+        lengthRule:
+          'LENGTH: This must be a long-form scene of at least 6,000 tokens (~24-32 paragraphs). Develop the world thoroughly with multiple locations or beats, multiple dialogue exchanges, extended internal thoughts, sensory and atmospheric description, subtle character backstory woven into the narrative, and a fully realized emotional arc. Treat this like a short story chapter — do NOT cut short. Keep writing until the scene reaches its full emotional payoff.',
+      };
+    default: // 'short'
+      return {
+        openingLine:
+          'Write a cinematic scene (approximately 500-1,000 tokens, around 3-4 paragraphs) in a parallel universe where "{charName}" and "{userName}" exist as different versions of themselves, yet their connection feels familiar.',
+        lengthRule:
+          'LENGTH: Aim for 500-1,000 tokens (~3-4 paragraphs). Keep the scene concise and make every sentence carry weight.',
+      };
+  }
+}
+
+// =============================================================================
+// ADAPT CHARACTER — Re-generate character details to fit the generated story
+// =============================================================================
+// After a story is generated, the user may want the character's description,
+// personality, scenario, and example dialogue to be rewritten so they fit the
+// universe of the new story (e.g. period dress for a Victorian story, modern
+// tech jargon for a cyberpunk story). This consumes one extra AI call.
+// =============================================================================
+
+// Build the prompt that asks the LLM to rewrite character data to fit the story.
+// Output is requested in strict JSON so we can parse it back into char fields.
+function buildAdaptCharacterPrompt(
+  storyText,
+  charName,
+  userName,
+  charDescription,
+  charPersonality,
+  charScenario,
+  charMesExample,
+  adaptLanguage = 'auto',
+) {
+  // Strip any thinking/hook tags from the story before sending it as context
+  const cleanStory = String(storyText || '')
+    .replace(/<think>[\s\S]*?<\/think>/gi, '')
+    .replace(/<hook>[\s\S]*?<\/hook>/gi, '')
+    .trim();
+
+  // Use original fields verbatim — no truncation since the LLM needs to see the full picture
+  const safeDesc = String(charDescription || '').trim() || '(no original description)';
+  const safePerson = String(charPersonality || '').trim() || '(no original personality)';
+  const safeScenario = String(charScenario || '').trim() || '(no original scenario)';
+  const safeMesExample = String(charMesExample || '').trim() || '(no original example dialogue)';
+  const safeUserName = String(userName || '').trim();
+  const userMacroNote = safeUserName
+    ? `★★★ MANDATORY USER REPLACEMENT ★★★
+The current user persona is named "${safeUserName}". This name MUST NEVER appear in your output.
+EVERY single reference to the user — whether subject, object, possessive, vocative, narrative aside, or dialogue — MUST be written as the literal placeholder {{user}} (with double curly braces).
+Do NOT write "${safeUserName}". Do NOT write any variation. Do NOT write a different personal name in place of the user.
+WRONG: "${safeUserName} walks into the room. ${safeUserName} is curious about you."
+WRONG: "She glances at ${safeUserName}, smiling softly."
+RIGHT: "{{user}} walks into the room. {{user}} is curious about you."
+RIGHT: "She glances at {{user}}, smiling softly."
+This rule applies to all four fields: description, personality, scenario, mes_example. The card must remain shareable between different users.`
+    : `★★★ MANDATORY USER REPLACEMENT ★★★
+EVERY reference to the user MUST be written as the literal placeholder {{user}} (with double curly braces).
+Never write a real personal name in place of the user. The card must remain shareable.`;
+
+  // Output language directive — overrides the "auto" default when the user picks th or en
+  let languageDirective;
+  switch (adaptLanguage) {
+    case 'th':
+      languageDirective =
+        '★ OUTPUT LANGUAGE: Write ALL four fields (description, personality, scenario, mes_example) entirely in THAI (ภาษาไทย). Use natural, fluent Thai prose. Do NOT mix English narration. Keep proper nouns and the {{user}} / {{char}} placeholders unchanged.';
+      break;
+    case 'en':
+      languageDirective =
+        '★ OUTPUT LANGUAGE: Write ALL four fields (description, personality, scenario, mes_example) entirely in ENGLISH. Use natural, fluent English prose. Do NOT mix Thai narration. Keep proper nouns and the {{user}} / {{char}} placeholders unchanged.';
+      break;
+    default: // 'auto'
+      languageDirective =
+        '★ OUTPUT LANGUAGE: Match the same primary language as the original character data above. If the original is mostly Thai, output Thai; if mostly English, output English. Do not switch languages.';
+      break;
+  }
+
+  return `[SYSTEM OVERRIDE: IGNORE ALL PREVIOUS CONVERSATION HISTORY]
+[CRITICAL INSTRUCTION: THIS IS A CHARACTER ADAPTATION TASK. DO NOT WRITE A STORY. DO NOT REPLY TO THE USER.]
+
+You are given a parallel-universe story and the original character data for "${charName}". Your task is to REWRITE the character details so they naturally fit inside the universe, time period, setting, and tone of the story.
+
+===== ORIGINAL CHARACTER DATA =====
+NAME: ${charName}
+
+DESCRIPTION:
+${safeDesc}
+
+PERSONALITY:
+${safePerson}
+
+SCENARIO:
+${safeScenario}
+
+EXAMPLE DIALOGUE (mes_example):
+${safeMesExample}
+===== END ORIGINAL CHARACTER DATA =====
+
+===== THE PARALLEL UNIVERSE STORY =====
+${cleanStory}
+===== END STORY =====
+
+===== YOUR TASK =====
+Rewrite the four character fields (description, personality, scenario, mes_example) so that they fit the universe of the story above.
+
+PRESERVATION RULES (do NOT change):
+- Core personality traits — quirks, emotional patterns, fears, motivations, speech rhythm, sense of humor
+- Fundamental relationship dynamic with {{user}}
+- The character's name (always "${charName}")
+
+ADAPTATION RULES (these MUST change to fit the story's universe):
+- Physical description (clothing, accessories, settings/environment cues) → match the era, technology level, fashion, and culture of the story
+- Background, occupation, social role → translate into a fitting role for THIS universe
+- Speech style and vocabulary → match the period and cultural setting (e.g. archaic for medieval, slang for modern, etc.)
+- Scenario → reflect the world and circumstances of the story (not the character's original setting)
+- mes_example → demonstrate how the character speaks in THIS universe (use {{user}} and {{char}} placeholders)
+
+USER NAME RULE:
+${userMacroNote}
+- Use {{user}} EVERYWHERE you need to refer to the user, including in description, personality, scenario, and mes_example.
+- Use {{char}} where you need to refer to the character by name in dialogue templates.
+
+OUTPUT FORMAT (strict JSON, NO markdown, NO code fences, NO commentary):
+{
+  "description": "...",
+  "personality": "...",
+  "scenario": "...",
+  "mes_example": "..."
+}
+
+LANGUAGE RULES:
+${languageDirective}
+- Keep similar text length to the originals (don't drastically shorten or balloon out).
+- Use {{user}} and {{char}} as placeholders where appropriate.
+
+[STRICT ENFORCEMENT: OUTPUT ONLY VALID JSON. NO PREAMBLE. NO EXPLANATION. NO MARKDOWN.]
+[BEGIN JSON]`;
+}
+
+// Replace any literal occurrences of the real user name with the {{user}} macro.
+// Defensive cleanup for the case where the LLM ignores the prompt instruction.
+//
+// Strategy:
+// - Pure-ASCII names use word boundaries (\b) to avoid mangling substrings
+//   (e.g. "Lily" should not match inside "lily-white").
+// - Names containing non-ASCII characters (Thai, CJK, etc.) have no concept of
+//   word boundaries in Unicode, so we fall back to literal substring replacement
+//   AFTER first protecting the {{user}} / {{char}} macros.
+// - Possessive forms in English ("Alice's") are handled too.
+// - Returns the original text unchanged when no replacement is safe.
+function replaceUserNameWithMacro(text, userName) {
+  if (!text || typeof text !== 'string') return text;
+  const name = String(userName || '').trim();
+  if (!name) return text;
+  // Skip "user" itself (would create {{{{user}}}} chains)
+  if (name.toLowerCase() === 'user') return text;
+  // Skip 1-character names (high false-positive risk)
+  if (name.length < 2) return text;
+
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const isAsciiName = /^[\x20-\x7E]+$/.test(name);
+
+  let before = text;
+  let after = text;
+
+  try {
+    if (isAsciiName) {
+      // ASCII name: use word boundaries + handle English possessives ('s)
+      const possessiveRe = new RegExp(`\\b${escaped}('s|'s)\\b`, 'gi');
+      after = after.replace(possessiveRe, "{{user}}'s");
+      const wordRe = new RegExp(`\\b${escaped}\\b`, 'gi');
+      after = after.replace(wordRe, '{{user}}');
+    } else {
+      // Non-ASCII name (Thai/CJK/etc.): literal replacement, but we must NOT
+      // accidentally rewrite {{user}} or {{char}}. Do a sentinel pass.
+      const SENTINEL_USER = '\u0001AU_USER_MACRO\u0001';
+      const SENTINEL_CHAR = '\u0001AU_CHAR_MACRO\u0001';
+      after = after.split('{{user}}').join(SENTINEL_USER).split('{{char}}').join(SENTINEL_CHAR);
+      // Case-insensitive substring match using a regex with no word boundaries
+      const re = new RegExp(escaped, 'gi');
+      after = after.replace(re, '{{user}}');
+      after = after.split(SENTINEL_USER).join('{{user}}').split(SENTINEL_CHAR).join('{{char}}');
+    }
+  } catch (e) {
+    // Fallback to plain split/join (case-sensitive) if regex construction fails
+    after = before.split(name).join('{{user}}');
+  }
+
+  if (after !== before) {
+    const occurrences = (before.match(new RegExp(escaped, 'gi')) || []).length;
+    console.log(`[${extensionName}] 🎭 Adapt: replaced ${occurrences} occurrence(s) of "${name}" with {{user}} macro`);
+  }
+  return after;
+}
+
+// Robustly parse the LLM response as JSON.
+// Strips markdown code fences and trims, then attempts JSON.parse.
+// Returns null if parsing fails or required keys are missing.
+function parseAdaptResponse(rawText) {
+  if (!rawText || typeof rawText !== 'string') return null;
+  // Remove leading/trailing markdown fences and whitespace
+  let cleaned = rawText.trim();
+  cleaned = cleaned.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '');
+  cleaned = cleaned.trim();
+
+  // Try to locate the first {...} block in case the model wrote extra prose
+  const firstBrace = cleaned.indexOf('{');
+  const lastBrace = cleaned.lastIndexOf('}');
+  if (firstBrace >= 0 && lastBrace > firstBrace) {
+    cleaned = cleaned.slice(firstBrace, lastBrace + 1);
+  }
+
+  try {
+    const obj = JSON.parse(cleaned);
+    if (typeof obj !== 'object' || obj === null) return null;
+    return {
+      description: typeof obj.description === 'string' ? obj.description.trim() : null,
+      personality: typeof obj.personality === 'string' ? obj.personality.trim() : null,
+      scenario: typeof obj.scenario === 'string' ? obj.scenario.trim() : null,
+      mes_example: typeof obj.mes_example === 'string' ? obj.mes_example.trim() : null,
+    };
+  } catch (err) {
+    console.warn(`[${extensionName}] ❌ Failed to parse adapt response as JSON:`, err.message);
+    return null;
+  }
+}
+
+// Show the confirmation popup that warns the user about extra quota usage.
+// Returns a Promise<boolean> — true if the user confirmed, false otherwise.
+function showAdaptConfirmation(charName) {
+  return new Promise(resolve => {
+    // Remove any existing confirmation overlay first to be safe
+    $('#au-adapt-confirm-overlay').remove();
+
+    const message = t('adapt.confirm_message', {}).replace('{charName}', charName);
+    const html = `
+      <div id="au-adapt-confirm-overlay" style="${getOverlayStyle()}">
+        <div class="au-universal-popup" style="max-width: 480px;">
+          <div class="au-universal-popup-header">
+            <div class="au-card-front-header-text">
+              <span class="au-modal-title">${t('adapt.confirm_title')}</span>
+            </div>
+            <span id="au-adapt-confirm-close" class="au-modal-close">✕</span>
+          </div>
+          <div class="au-universal-popup-body" style="padding: 20px; line-height: 1.6;">
+            <p style="margin: 0 0 14px 0; color:#e8edf2;">${message}</p>
+            <div style="padding:10px 12px; background:rgba(255,180,80,0.10); border-radius:8px; border-left:3px solid rgba(255,180,80,0.6); color:#ffcc88; font-size:0.9em;">
+              ${t('adapt.confirm_warning')}
+            </div>
+          </div>
+          <div class="au-universal-popup-footer" style="display:flex; gap:8px; padding:12px; border-top:1px solid rgba(130, 160, 220, 0.2);">
+            <input id="au-adapt-confirm-no" class="menu_button" type="submit" value="${t('adapt.confirm_no')}" style="flex:1;" />
+            <input id="au-adapt-confirm-yes" class="menu_button" type="submit" value="${t('adapt.confirm_yes')}" style="flex:1; background:rgba(50,200,50,0.3); border-color:rgba(50,200,50,0.7); color:#66ff66; font-weight:600;" />
+          </div>
+        </div>
+      </div>`;
+
+    document.body.insertAdjacentHTML('beforeend', html);
+
+    const close = result => {
+      $('#au-adapt-confirm-overlay').remove();
+      resolve(result);
+    };
+
+    $('#au-adapt-confirm-yes').on('click', () => close(true));
+    $('#au-adapt-confirm-no').on('click', () => close(false));
+    $('#au-adapt-confirm-close').on('click', () => close(false));
+    $('#au-adapt-confirm-overlay').on('click', e => {
+      if (e.target === e.currentTarget) close(false);
+    });
+  });
+}
+
+// Call the LLM to rewrite the character's data to fit the story.
+// On success: mutates the gallery entry in place + saves settings.
+// Returns true on success, false on any failure (with toastr-shown error).
+async function adaptCharacterToStory(galleryEntry) {
+  if (!galleryEntry) {
+    toastr.error(t('adapt.no_data'), t('common.another_universe'));
+    return false;
+  }
+  if (galleryEntry.characterAdapted) {
+    toastr.info(t('adapt.already_adapted'), t('common.another_universe'));
+    return false;
+  }
+
+  const charName = galleryEntry.charName || 'Unknown';
+  const description = galleryEntry.charDescription || '';
+  const personality = galleryEntry.charPersonality || '';
+  const scenario = galleryEntry.charScenarioOriginal || '';
+  const mesExample = galleryEntry.charMesExample || '';
+
+  // Resolve the user's display name. Prefer the value stored on the entry (the name
+  // used when the story was generated) and fall back to the current ST user name.
+  const ctxNow = getContext();
+  const userName = galleryEntry.userName || ctxNow.name1 || '';
+
+  // Resolve adapt language. Prefer the value snapshotted on the entry (so re-running
+  // adapt from gallery uses the original choice) and fall back to current Quick Settings.
+  const adaptLanguage = galleryEntry.adaptLanguage || extension_settings[extensionName].adaptLanguage || 'auto';
+
+  // Note: we allow empty originals, the prompt has fallback labels
+  const prompt = buildAdaptCharacterPrompt(
+    galleryEntry.storyText,
+    charName,
+    userName,
+    description,
+    personality,
+    scenario,
+    mesExample,
+    adaptLanguage,
+  );
+  console.log(
+    `[${extensionName}] 🎭 Adapt prompt size: ${prompt.length} chars (user="${userName}", lang="${adaptLanguage}")`,
+  );
+
+  // === CONTEXT ISOLATION === (same approach as story generation)
+  const context = getContext();
+  const originalChat = [...context.chat];
+  context.chat.splice(0, context.chat.length);
+
+  const adaptAbortController = new AbortController();
+
+  try {
+    const result = await generateQuietPrompt(prompt, false, false, '', '', adaptAbortController.signal);
+    if (!result) {
+      toastr.error(t('adapt.failed'), t('common.another_universe'));
+      console.error(`[${extensionName}] ❌ Empty result from adapt LLM call`);
+      return false;
+    }
+
+    const parsed = parseAdaptResponse(result);
+    if (!parsed) {
+      toastr.error(t('adapt.parse_failed'), t('common.another_universe'));
+      console.error(`[${extensionName}] ❌ Could not parse adapt response. Raw:`, result.slice(0, 400));
+      return false;
+    }
+
+    // Defensive cleanup: if the LLM ignored the macro instruction and emitted the
+    // user's literal name, replace whole-word occurrences with {{user}} so the
+    // exported card stays portable (it should not contain the original user's name).
+    if (parsed.description) galleryEntry.charDescription = replaceUserNameWithMacro(parsed.description, userName);
+    if (parsed.personality) galleryEntry.charPersonality = replaceUserNameWithMacro(parsed.personality, userName);
+    if (parsed.scenario) galleryEntry.charScenarioOriginal = replaceUserNameWithMacro(parsed.scenario, userName);
+    if (parsed.mes_example) galleryEntry.charMesExample = replaceUserNameWithMacro(parsed.mes_example, userName);
+    galleryEntry.characterAdapted = true;
+    // Snapshot the language used so re-adapting (or just inspecting the entry later) is reproducible.
+    galleryEntry.adaptLanguage = adaptLanguage;
+
+    // Persist to extension_settings.gallery (the entry is a reference into that array)
+    saveSettingsDebounced();
+    console.log(`[${extensionName}] ✅ Character "${charName}" adapted to story`);
+    return true;
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      toastr.info(t('common.cancelled'), t('common.another_universe'));
+      return false;
+    }
+    console.error(`[${extensionName}] ❌ Adapt character failed:`, error);
+    toastr.error(`${t('adapt.failed')}: ${error.message || ''}`, t('common.another_universe'));
+    return false;
+  } finally {
+    // Always restore the chat history immediately after the call
+    context.chat.push(...originalChat);
+  }
+}
+
+// Orchestrate the full adapt flow: show loading toast, run adapt, refresh UI.
+// Used by both the post-generate auto-adapt path and the in-modal Adapt button.
+async function runAdaptCharacterFlow(galleryEntry) {
+  if (!galleryEntry) {
+    toastr.error(t('adapt.no_data'), t('common.another_universe'));
+    return false;
+  }
+  // Show non-blocking sticky loading toast (cleared once we know the result)
+  const loadingToast = toastr.info(t('adapt.loading'), t('common.another_universe'), {
+    timeOut: 0,
+    extendedTimeOut: 0,
+    closeButton: false,
+  });
+  let success = false;
+  try {
+    success = await adaptCharacterToStory(galleryEntry);
+  } finally {
+    if (loadingToast) toastr.clear(loadingToast);
+  }
+  if (success) {
+    toastr.success(t('adapt.success'), t('common.another_universe'));
+    // If the story modal is currently open, re-render so the badge appears
+    if ($('#another-universe-modal-overlay').length && $('#au-story-display').length) {
+      $('#another-universe-modal-overlay').remove();
+      showStoryModal(
+        galleryEntry.charName,
+        galleryEntry.storyText,
+        galleryEntry.themeBadge,
+        galleryEntry.themeId,
+        galleryEntry.storyLength || 'short',
+      );
+    }
+  }
+  return success;
 }
 
 // Save story to gallery
@@ -2353,6 +2944,11 @@ function saveToGallery(charName, storyText, themeBadge, themeId, extra = {}) {
     charVersion: extra.charVersion || null,
     charTags: extra.charTags || null,
     userName: extra.userName || null,
+    storyLength: extra.storyLength || 'short',
+    // True after Adapt Character has rewritten char fields to fit the story.
+    // Other char* fields (charDescription, charPersonality, charScenarioOriginal, charMesExample)
+    // will hold the adapted values once this flag flips to true.
+    characterAdapted: !!extra.characterAdapted,
   };
 
   let gallery = extension_settings[extensionName].gallery;
@@ -2447,8 +3043,16 @@ function showGalleryModal(showFavOnly = false) {
           if (entry.moodId && entry.moodId !== 'none') parts.push(getMoodLabel(entry.moodId));
           return parts.join(' · ');
         })();
+        // Adapt indicator — rendered as a post-it style red corner tag pinned to the
+        // top-left of the card. The card root gets a marker class that pads the header
+        // so the character name doesn't collide with the tag on narrow viewports.
+        const adaptedTag = entry.characterAdapted
+          ? `<span class="au-adapted-tag au-adapted-tag--compact" title="${t('adapt.badge')}" aria-label="${t('adapt.badge')}">🎭</span>`
+          : '';
+        const adaptedClass = entry.characterAdapted ? ' au-gallery-item--adapted' : '';
         return `
-            <div class="au-gallery-item" data-index="${realIndex}">
+            <div class="au-gallery-item${adaptedClass}" data-index="${realIndex}">
+                ${adaptedTag}
                 <div class="au-gallery-item-header">
                     <span class="au-gallery-item-char">🌌 ${entry.charName}</span>
                     <div class="au-gallery-item-actions">
@@ -2502,7 +3106,8 @@ function showGalleryModal(showFavOnly = false) {
     const entry = gallery[index];
     if (entry) {
       $('#another-universe-modal-overlay').remove();
-      showStoryModal(entry.charName, entry.storyText, entry.themeBadge, entry.themeId);
+      // Pass stored storyLength so re-opened entries respect their original length tier
+      showStoryModal(entry.charName, entry.storyText, entry.themeBadge, entry.themeId, entry.storyLength || 'short');
     }
   });
 
@@ -3109,9 +3714,26 @@ function showMobileScreenshotView(type, charName, storyText, themeName, themeId 
 }
 
 // Show the story modal (works on all screen sizes)
-function showStoryModal(charName, storyText, themeName, themeId = 'random') {
+//
+// storyLength controls whether the image-card buttons (Long Card / Short Card) are shown.
+// For 'verylong' / 'extended' the story is too long to render as an image card, so we hide
+// those buttons but keep Edit / Export PNG / Export JSON / Regenerate functional.
+function showStoryModal(charName, storyText, themeName, themeId = 'random', storyLength = null) {
   // Remove existing
   $('#another-universe-modal-overlay').remove();
+
+  // Resolve effective storyLength: explicit arg > current setting fallback ('short')
+  const effectiveLength = storyLength || extension_settings[extensionName].storyLength || 'short';
+  // Image-card preview is supported for short + medium only.
+  // For long / extended the story has too many tokens to render onto a single image.
+  const showImageButtons = effectiveLength === 'short' || effectiveLength === 'medium';
+
+  // Look up the gallery entry for THIS story so we can show the adapt badge
+  // and disable the adapt button when it has already been run.
+  // Match on (charName + storyText) — storyText is the strongest unique key we have.
+  const galleryArr = extension_settings[extensionName].gallery || [];
+  const galleryEntry = galleryArr.find(g => g && g.charName === charName && g.storyText === storyText) || null;
+  const isAdapted = !!(galleryEntry && galleryEntry.characterAdapted);
 
   // Strip out LLM thinking blocks and hooks before displaying
   const cleanStoryText = storyText
@@ -3131,15 +3753,50 @@ function showStoryModal(charName, storyText, themeName, themeId = 'random') {
     window.innerWidth <= 768;
 
   let footerHtml = '';
+  // Mobile / desktop footer buttons share these visibility rules.
+  // For verylong / extended stories we hide the image-card buttons (Long Card / Short Card)
+  // because rendering thousands of tokens onto a single image is impractical.
+  const longBtnMobile = showImageButtons
+    ? `<button id="au-modal-save-long" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;">${t('story.long_short')}</button>`
+    : '';
+  const shortBtnMobile = showImageButtons
+    ? `<button id="au-modal-save-short" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;">${t('story.short_short')}</button>`
+    : '';
+  const longBtnDesktop = showImageButtons
+    ? `<input id="au-modal-save-long" class="menu_button" type="submit" value="${t('story.long_card')}" title="Save full story" />`
+    : '';
+  const shortBtnDesktop = showImageButtons
+    ? `<input id="au-modal-save-short" class="menu_button" type="submit" value="${t('story.short_card')}" title="Save quote & snippet" />`
+    : '';
+  // Adapt button — disabled+labelled "✓ Adapted" once the character has been adapted.
+  // Hidden entirely if there is no gallery entry yet (defensive — shouldn't happen in normal flow).
+  const adaptLabelMobile = isAdapted ? t('story.adapt_character_done_short') : t('story.adapt_character_short');
+  const adaptLabelDesktop = isAdapted ? t('story.adapt_character_done') : t('story.adapt_character');
+  const adaptDisabledAttr = isAdapted ? 'disabled' : '';
+  // Mobile button matches the neutral white-on-translucent look of the other action
+  // buttons. When already adapted, dim the button (lower opacity) instead of swapping
+  // to a green palette so the modal stays visually consistent.
+  const adaptBgMobile = isAdapted
+    ? 'background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:#fff; cursor:default; opacity:0.55;'
+    : 'background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:#fff;';
+  // Desktop reuses the standard .menu_button look — no inline override unless adapted.
+  const adaptStyleDesktop = isAdapted ? 'opacity:0.55; cursor:default;' : '';
+  const adaptBtnMobile = galleryEntry
+    ? `<button id="au-modal-adapt" ${adaptDisabledAttr} style="flex:1 1 30%; padding:8px 4px; border-radius:8px; ${adaptBgMobile} font-size:0.9em; cursor:pointer;" title="${t('story.adapt_character')}">${adaptLabelMobile}</button>`
+    : '';
+  const adaptBtnDesktop = galleryEntry
+    ? `<input id="au-modal-adapt" class="menu_button" type="submit" value="${adaptLabelDesktop}" title="${t('story.adapt_character')}"${adaptStyleDesktop ? ` style="${adaptStyleDesktop}"` : ''} ${adaptDisabledAttr} />`
+    : '';
   if (isMobileDevice) {
     // Simple horizontal row for mobile
     footerHtml = `
             <div class="au-universal-popup-footer" style="display:flex; flex-direction:row; flex-wrap:wrap; justify-content:center; gap:8px; padding:12px; border-top:1px solid rgba(130, 160, 220, 0.2);">
                 <button id="au-modal-edit" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;">${t('story.edit_short')}</button>
-                <button id="au-modal-save-long" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;">${t('story.long_short')}</button>
-                <button id="au-modal-save-short" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;">${t('story.short_short')}</button>
+                ${longBtnMobile}
+                ${shortBtnMobile}
                 <button id="au-modal-export-card" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;" title="Export as SillyTavern character card (.png)">${t('story.export_png_short')}</button>
                 <button id="au-modal-export-json" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;" title="Export as Character Card V2 JSON (.json)">${t('story.export_json_short')}</button>
+                ${adaptBtnMobile}
                 <button id="au-modal-regenerate" style="flex:1 1 30%; padding:8px 4px; border-radius:8px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9em; cursor:pointer;">${t('story.regenerate_short')}</button>
             </div>
             <div id="au-modal-edit-controls" class="au-universal-popup-footer" style="display:none; flex-direction:row; justify-content:center; gap:8px; padding:12px; border-top:1px solid rgba(130, 160, 220, 0.2);">
@@ -3157,10 +3814,11 @@ function showStoryModal(charName, storyText, themeName, themeId = 'random') {
     footerHtml = `
             <div class="au-universal-popup-footer" style="flex-wrap: wrap;">
                 <input id="au-modal-edit" class="menu_button" type="submit" value="${t('story.edit')}" title="Edit story text" />
-                <input id="au-modal-save-long" class="menu_button" type="submit" value="${t('story.long_card')}" title="Save full story" />
-                <input id="au-modal-save-short" class="menu_button" type="submit" value="${t('story.short_card')}" title="Save quote & snippet" />
+                ${longBtnDesktop}
+                ${shortBtnDesktop}
                 <input id="au-modal-export-card" class="menu_button" type="submit" value="${t('story.export_png')}" title="Export as SillyTavern character card (.png)" />
                 <input id="au-modal-export-json" class="menu_button" type="submit" value="${t('story.export_json')}" title="Export as Character Card V2 JSON (.json) — portable" />
+                ${adaptBtnDesktop}
                 <input id="au-modal-regenerate" class="menu_button" type="submit" value="${t('story.regenerate')}" />
                 <input id="au-modal-close-btn" class="menu_button" type="submit" value="${t('story.close')}" />
             </div>
@@ -3178,9 +3836,17 @@ function showStoryModal(charName, storyText, themeName, themeId = 'random') {
         `;
   }
 
+  // Adapt indicator — rendered as a post-it style red ribbon pinned to the
+  // top-left corner of the modal. The wrapper popup gets a marker class that
+  // pads the header so the title doesn't slide under the ribbon.
+  const adaptedTagHtml = isAdapted
+    ? `<span class="au-adapted-tag" title="${t('adapt.success')}">${t('adapt.badge')}</span>`
+    : '';
+  const popupAdaptedClass = isAdapted ? ' au-universal-popup--adapted' : '';
   const modalHtml = `
     <div id="another-universe-modal-overlay" style="${getOverlayStyle()}">
-        <div class="au-universal-popup">
+        <div class="au-universal-popup${popupAdaptedClass}">
+            ${adaptedTagHtml}
             <div class="au-universal-popup-header">
                 <div class="au-card-front-header-text">
                     <span class="au-modal-title">🌌 ${charName}</span>
@@ -3275,6 +3941,17 @@ function showStoryModal(charName, storyText, themeName, themeId = 'random') {
   $('#au-modal-regenerate').on('click', () => {
     $('#another-universe-modal-overlay').remove();
     onOpenUniverseClick();
+  });
+
+  // Bind Adapt Character — only attaches if the button was rendered (entry exists)
+  // and the character has not yet been adapted. Disabled buttons short-circuit on
+  // the early return below so a click on the "✓ Adapted" pill is a no-op.
+  $('#au-modal-adapt').on('click', async () => {
+    if (!galleryEntry) return;
+    if (galleryEntry.characterAdapted) return;
+    const confirmed = await showAdaptConfirmation(charName);
+    if (!confirmed) return;
+    await runAdaptCharacterFlow(galleryEntry);
   });
 
   // Build the entry to export (gallery match preferred, fallback to current context)
@@ -3794,6 +4471,7 @@ async function onOpenUniverseClick() {
   const encounterLabel = selectedEncounter === 'none' ? '' : getEncounterLabel(selectedEncounter);
   const selectedMood = extension_settings[extensionName].selectedMood || 'random';
   const moodLabel = selectedMood === 'none' ? '' : getMoodLabel(selectedMood);
+  const storyLength = extension_settings[extensionName].storyLength || 'short';
 
   // Validate that any 'custom' selection has actual text in its textarea
   const customEmpty = [];
@@ -3816,7 +4494,7 @@ async function onOpenUniverseClick() {
 
   const chatContext = getRelationshipSummary(6);
   console.log(
-    `[${extensionName}] Generating for ${charName} [Theme: ${themeLabel}] [Encounter: ${encounterLabel}] [Mood: ${moodLabel}] [Context: ${chatContext ? 'Yes' : 'No'}]`,
+    `[${extensionName}] Generating for ${charName} [Theme: ${themeLabel}] [Encounter: ${encounterLabel}] [Mood: ${moodLabel}] [Length: ${storyLength}] [Context: ${chatContext ? 'Yes' : 'No'}]`,
   );
 
   showLoadingState(true);
@@ -3878,12 +4556,30 @@ async function onOpenUniverseClick() {
             ? charObj.tags
             : [],
         userName,
+        storyLength,
       };
 
       saveToGallery(charName, result, badge, selectedTheme, extra);
-      showStoryModal(charName, result, badge, selectedTheme);
+      showStoryModal(charName, result, badge, selectedTheme, storyLength);
       toastr.success(t('common.universe_ready'), t('common.another_universe'));
       console.log(`[${extensionName}] ✅ Universe generated successfully`);
+
+      // === ADAPT CHARACTER (post-generation) ===
+      // If the user enabled the Adapt Character checkbox, prompt for confirmation
+      // (since this consumes an extra AI call) and run the adapt flow.
+      if (extension_settings[extensionName].adaptCharacter === true) {
+        const galleryArr = extension_settings[extensionName].gallery || [];
+        // saveToGallery prepends, so the new entry is at index 0
+        const newEntry = galleryArr[0];
+        if (newEntry && newEntry.storyText === result) {
+          // Defer slightly so the story modal has rendered first
+          setTimeout(async () => {
+            const confirmed = await showAdaptConfirmation(charName);
+            if (!confirmed) return;
+            await runAdaptCharacterFlow(newEntry);
+          }, 200);
+        }
+      }
     } else {
       toastr.error(t('common.cannot_generate'), t('common.another_universe'));
       console.log(`[${extensionName}] ❌ Empty result from LLM`);
